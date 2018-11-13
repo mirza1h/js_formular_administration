@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport"  content="width,device-width, initial-scale=1">
+<link rel="stylesheet" href="tab.css">
+<head>
+  <title>A Web Page</title>
+</head>
+<body>
+  	<div class="tablink" onclick="openPage('Administration', this, 'white')" id="defaultOpen">Administration</div>
+	<div class="tablink" onclick="openPage('Formular', this, 'white')">Formular</div>
+	<div id="Administration" class="tabcontent">
+  		<p>Formular name:</p>
+		<input type="text" id="userInput" class="inputs"> </input>
+		<button id="search" onclick="createDefaultForm()">Search</button>
+	</div>
+
+	<div id="Formular" class="tabcontent">
+  		<p>Some news this fine day!</p> 
+	</div>
+<script src="functions.js"></script> 
+</body>
