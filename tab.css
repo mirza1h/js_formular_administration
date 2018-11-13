@@ -12,9 +12,9 @@ body, html {
 	border-right: 1px solid black;
 	border-left: 1px solid black;
  	cursor: pointer;
-  	padding: 14px 16px;
-  	font-size: 17px;
-  	width: 10%;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 10%;
 	margin-top: 10px;
 	margin-left: 5px;
 	text-align: center;
@@ -25,12 +25,12 @@ body, html {
 	position: relative;
 	top: 61px;
  	color: black;
-  	display: none;
-  	padding: 100px 20px;
-  	height: 75%;
+  display: none;
+  padding: 100px 20px;
+  height: 75%;
 	width: 95%;
 }
-#search {
+.buttons {
 	position: absolute;
 	left: 400px;
 	top: 108px;
@@ -46,7 +46,8 @@ button:focus {outline:0;}
 	width: 15%;
 	height: 3%;
 }
-.inputs {
-	position: absolute;
-}
 
+#save {
+	left: 550px;
+	top: 600px;
+}

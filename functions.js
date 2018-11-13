@@ -29,12 +29,14 @@ function createDefaultForm(){
 	var node = document.createTextNode("Element 1");
 	text.appendChild(node);
 	div.appendChild(text);
+
 	var input = document.createElement("input");
 	input.setAttribute('type','text');
 	input.setAttribute('placeholder','Label 1');
   input.style.cssText = 'margin:10px';
   div.appendChild(input);
-	var select1 = document.createElement("select");
+
+  var select1 = document.createElement("select");
 	var select2 = document.createElement("select");
 	var option1 = new Option("Textbox","Value",false,false);
 	var option2 = new Option("Mandatory","Value",false,false);
