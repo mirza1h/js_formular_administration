@@ -51,7 +51,6 @@ function createDefaultForm(){
 }
 var arrayOfElements = [];
 function addItem(type) {
-  window.alert(arrayOfElements.length);
 	var div = document.getElementById("Administration");
   if(type == "text" || type == "checkbox" || type == "radio"){
     var element = document.createElement("input");
@@ -74,4 +73,12 @@ function addItem(type) {
   div.appendChild(element);
   arrayOfElements.push(element);
   element.className = "defaultForm";
+}
+
+function storeForm(){
+  var div = document.getElementById("Formular");
+  var i;
+  for (i = 0;i<arrayOfElements.length;i++){
+    div.appendChild(arrayOfElements[i]);
+  }
 }
