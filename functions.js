@@ -49,6 +49,7 @@ function createDefaultForm(){
   var breakLine = document.createElement("br");
   div.appendChild(breakLine);
 }
+var map = new Map();
 var arrayOfElements = [];
 function addItem(type) {
 	var div = document.getElementById("Administration");
@@ -76,9 +77,20 @@ function addItem(type) {
 }
 
 function storeForm(){
-  var div = document.getElementById("Formular");
-  var i;
-  for (i = 0;i<arrayOfElements.length;i++){
-    div.appendChild(arrayOfElements[i]);
+//  map.set("first",arrayOfElements);
+//  var array = map.get("first");
+//  for(var i = 0;i<array.length;i++){
+//    div.appendChild(array[i]);
+//  }
+//div where i want to return the form
+var div = document.getElementById("Formular");
+localStorage.setItem("firstForm", JSON.stringify(array));
+var array = JSON.parse(localStorage.getItem("firstForm"));
+for(var i = 0;i<array.length;i++){
+    div.appendChild(array[i]);
   }
 }
+
+
+
+
