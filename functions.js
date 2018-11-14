@@ -24,23 +24,22 @@ document.getElementById("defaultOpen").click();
 
 function searchForm() {
   // Map is currently empty, so create default form
-  var userInput = document.getElementById("userInput").value;
   createDefaultForm();
 }
 
+var firstDiv = document.getElementById("Administration");
 function createDefaultForm(){
-	var div = document.getElementById("Administration");
 	var text = document.createElement("span");
   text.setAttribute("display","inline");
 	var node = document.createTextNode("Element 1");
 	text.appendChild(node);
-	div.appendChild(text);
+	firstDiv.appendChild(text);
 
 	var input = document.createElement("input");
 	input.setAttribute("type","text");
 	input.setAttribute("placeholder","Label 1");
   input.className = "defaultForm";
-  div.appendChild(input);
+  firstDiv.appendChild(input);
 
   var select1 = document.createElement("select");
 	var select2 = document.createElement("select");
@@ -50,23 +49,21 @@ function createDefaultForm(){
   select2.className = "defaultForm";
 	select1.appendChild(option1);
 	select2.appendChild(option2);
-	div.appendChild(select1);
-	div.appendChild(select2);
+	firstDiv.appendChild(select1);
+	firstDiv.appendChild(select2);
   var breakLine = document.createElement("br");
-  div.appendChild(breakLine);
+  firstDiv.appendChild(breakLine);
   arrayOfElements.push(text,input,select1,select2,breakLine);
 }
-
+var elementCount = 1;
 var map = new Map();
 var arrayOfElements = [];
-
 function addItem(type) {
-	var div = document.getElementById("Administration");
   if(type == "text" || type == "checkbox" || type == "radio"){
     var element = document.createElement("input");
     element.setAttribute("type",type);
     element.className = "defaultForm";
-    div.appendChild(element);
+    firstDiv.appendChild(element);
     arrayOfElements.push(element);
     return;
   }
@@ -75,24 +72,39 @@ function addItem(type) {
     var option = new Option("Textbox","Value",false,false);
 	  element.appendChild(option);
     element.className = "defaultForm";
-    div.appendChild(element);
+    firstDiv.appendChild(element);
     arrayOfElements.push(element);
     return;
   }
+  ++elementCount;
   var element = document.createElement(type);
-  div.appendChild(element);
+	var text = document.createElement("span");
+  text.setAttribute("display","inline");
+	var node = document.createTextNode("Element " + elementCount);
+	text.appendChild(node);
+  firstDiv.appendChild(element);
+  firstDiv.appendChild(text);
   arrayOfElements.push(element);
+  arrayOfElements.push(text);
   element.className = "defaultForm";
 }
 
+var dropDown = document.getElementById("existingForm");
 function storeForm(){
-  map.set("first",arrayOfElements);
+  var userInput = document.getElementById("userInput").value;
+  var option = new Option(userInput);
+  dropDown.appendChild(option);
+  var clonedArray = arrayOfElements.slice(0);
+  arrayOfElements = [];
+  map.set(userInput,clonedArray);
 }
 
 function getForm(selectedItem) {
-  var div = document.getElementById("Formular");
+  var i;
+  var div = document.getElementById("Forms");
   var array = map.get(selectedItem);
-  for(var i = 0;i<array.length;i++){
+  div.innerHTML = "";
+  for(i = 0;i<array.length;i++){
     div.appendChild(array[i]);
   }
 }
