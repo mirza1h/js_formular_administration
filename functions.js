@@ -77,16 +77,10 @@ function addItem(type) {
 }
 
 function storeForm(){
-//  map.set("first",arrayOfElements);
-//  var array = map.get("first");
-//  for(var i = 0;i<array.length;i++){
-//    div.appendChild(array[i]);
-//  }
-//div where i want to return the form
-var div = document.getElementById("Formular");
-localStorage.setItem("firstForm", JSON.stringify(array));
-var array = JSON.parse(localStorage.getItem("firstForm"));
-for(var i = 0;i<array.length;i++){
+  var div = document.getElementById("Formular");
+  map.set("first",arrayOfElements);
+  var array = map.get("first");
+  for(var i = 0;i<array.length;i++){
     div.appendChild(array[i]);
   }
 }
