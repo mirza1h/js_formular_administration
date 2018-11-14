@@ -57,7 +57,11 @@ button:focus {outline:0;}
   left: 530px;
   top: 160px;
   height: 3%;
-  width: 5%;
+  width: 6%;
+}
+
+#existingForm {
+  left: 200px;  
 }
 
 .defaultForm {

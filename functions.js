@@ -22,6 +22,12 @@ function openPage(pageName, elmnt, color) {
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
+function searchForm() {
+  // Map is currently empty, so create default form
+  var userInput = document.getElementById("userInput").value;
+  createDefaultForm();
+}
+
 function createDefaultForm(){
 	var div = document.getElementById("Administration");
 	var text = document.createElement("span");
@@ -48,9 +54,12 @@ function createDefaultForm(){
 	div.appendChild(select2);
   var breakLine = document.createElement("br");
   div.appendChild(breakLine);
+  arrayOfElements.push(text,input,select1,select2,breakLine);
 }
+
 var map = new Map();
 var arrayOfElements = [];
+
 function addItem(type) {
 	var div = document.getElementById("Administration");
   if(type == "text" || type == "checkbox" || type == "radio"){
@@ -77,14 +86,14 @@ function addItem(type) {
 }
 
 function storeForm(){
-  var div = document.getElementById("Formular");
   map.set("first",arrayOfElements);
-  var array = map.get("first");
+}
+
+function getForm(selectedItem) {
+  var div = document.getElementById("Formular");
+  var array = map.get(selectedItem);
   for(var i = 0;i<array.length;i++){
     div.appendChild(array[i]);
   }
 }
-
-
-
 
