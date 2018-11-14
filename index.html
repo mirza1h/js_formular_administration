@@ -13,6 +13,15 @@
 		<input type="text" id="userInput"> </input>
 		<button id="search" onclick="createDefaultForm()" class="buttons">Search</button>
     <button id="save" onclick="" class="buttons">Save</button>
+    <form>
+      <select name="addForm" id="addForm" class="buttons" onclick="addItem(this.value)">
+        <option value="text">Text</option>
+        <option value="radio">Radio</option>
+        <option value="checkbox">Checkbox</option>
+        <option value="select">Select</option>
+        <option value="br">New line</option>
+      </select>
+      <span id="end"></span>
   </div>
 
 	<div id="Formular" class="tabcontent">
