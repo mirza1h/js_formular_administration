@@ -10,27 +10,23 @@
 	<div class="tablink" onclick="openPage('Formular', this)">Formular</div>
 	<div id="Administration" class="tabcontent">
   		<p>Formular name:</p>
-		<input type="text" id="userInput" value=""> </input>
+		<input type="text" id="userInput" value="" autofocus> </input>
 		<button id="search" onclick="searchForm(document.getElementById('userInput').value)" class="buttons">Search</button>
     <button id="save" onclick="storeForm(document.getElementById('userInput').value)" class="buttons">Save</button>
-    <form>
-      <select name="addForm" id="addForm" class="buttons" onclick="addItem(this.value)">
-        <option value="text">Text</option>
-        <option value="radio">Radio</option>
-        <option value="checkbox">Checkbox</option>
-        <option value="select">Select</option>
-        <option value="br">New line</option>
-      </select>
-    </form>
+    <button id="add" onclick="createDefaultForm()" class="buttons">Add</button>
+    <div id="return"></div>
   </div>
-
 	<div id="Formular" class="tabcontent">
     <p>Formular name:</p> 
+    <input type="submit" id="saveData" class="buttons" onclick=""</input>
     <form>
       <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
+        <option value="" disabled selected hidden>Choose a form:</option>
       </select>
     </form>
-  <div id="Forms">
+    <div id="Forms">
+      <form id="valid">
+      </form>
   </div>
   </div>
 <script src="functions.js"></script> 

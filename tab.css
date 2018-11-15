@@ -53,15 +53,21 @@ button:focus {outline:0;}
 	top: 600px;
 }
 
-#addForm {
+#add {
   left: 530px;
   top: 160px;
   height: 3%;
-  width: 6%;
+  width: 8%;
+  display: none;
 }
 
 #existingForm {
   left: 160px;  
+}
+
+#saveData {
+	left: 550px;
+	top: 600px;
 }
 
 .defaultForm {
