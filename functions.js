@@ -28,6 +28,7 @@ function searchForm() {
 }
 
 var firstDiv = document.getElementById("Administration");
+  // Creates three default form elements after invalid search
 function createDefaultForm(){
 	var text = document.createElement("span");
   text.setAttribute("display","inline");
@@ -55,9 +56,11 @@ function createDefaultForm(){
   firstDiv.appendChild(breakLine);
   arrayOfElements.push(text,input,select1,select2,breakLine);
 }
+
 var elementCount = 1;
 var map = new Map();
 var arrayOfElements = [];
+  // Create rest of the form elements based on user dropdown selection and stores them into array
 function addItem(type) {
   if(type == "text" || type == "checkbox" || type == "radio"){
     var element = document.createElement("input");
@@ -90,6 +93,7 @@ function addItem(type) {
 }
 
 var dropDown = document.getElementById("existingForm");
+  // Store the array of current form into a map
 function storeForm(){
   var userInput = document.getElementById("userInput").value;
   var option = new Option(userInput);
@@ -99,6 +103,7 @@ function storeForm(){
   map.set(userInput,clonedArray);
 }
 
+  // Search the map for the array of selected form and display it
 function getForm(selectedItem) {
   var i;
   var div = document.getElementById("Forms");
