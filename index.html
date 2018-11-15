@@ -5,14 +5,14 @@
 <head>
   <title>A Web Page</title>
 </head>
-<body>
-  	<div class="tablink" onclick="openPage('Administration', this, 'white')" id="defaultOpen">Administration</div>
-	<div class="tablink" onclick="openPage('Formular', this, 'white')">Formular</div>
+<body onload="exampleForm()">
+  	<div class="tablink" onclick="openPage('Administration', this)" id="defaultOpen">Administration</div>
+	<div class="tablink" onclick="openPage('Formular', this)">Formular</div>
 	<div id="Administration" class="tabcontent">
   		<p>Formular name:</p>
 		<input type="text" id="userInput" value=""> </input>
-		<button id="search" onclick="searchForm()" class="buttons">Search</button>
-    <button id="save" onclick="storeForm()" class="buttons">Save</button>
+		<button id="search" onclick="searchForm(document.getElementById('userInput').value)" class="buttons">Search</button>
+    <button id="save" onclick="storeForm(document.getElementById('userInput').value)" class="buttons">Save</button>
     <form>
       <select name="addForm" id="addForm" class="buttons" onclick="addItem(this.value)">
         <option value="text">Text</option>
@@ -28,12 +28,9 @@
     <p>Formular name:</p> 
     <form>
       <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
-        <option value="first">First form</option>
-        <option value="second">Second form</option>
       </select>
     </form>
   <div id="Forms">
-    <p> Form: </p>
   </div>
   </div>
 <script src="functions.js"></script> 

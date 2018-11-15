@@ -1,4 +1,4 @@
-function openPage(pageName, elmnt, color) {
+function openPage(pageName, elmnt) {
     // Hide all elements with class="tabcontent" by default */
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -16,15 +16,22 @@ function openPage(pageName, elmnt, color) {
     document.getElementById(pageName).style.display = "block";
 
     // Add the specific color to the button used to open the tab content
-    elmnt.style.backgroundColor = color;
+    elmnt.style.backgroundColor = "white";
 }
 
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
-function searchForm() {
-  // Map is currently empty, so create default form
-  createDefaultForm();
+function searchForm(userInput) {
+  var array = map.get(userInput);
+  if (array == undefined) {
+    window.alert("Form doesn't exist. Create a form under that name:");
+    createDefaultForm();
+    return;
+  }
+  for( var i = 0; i < array.length; i++ ) {
+    firstDiv.appendChild(array[i]);
+  }
 }
 
 var firstDiv = document.getElementById("Administration");
@@ -38,7 +45,7 @@ function createDefaultForm(){
 
 	var input = document.createElement("input");
 	input.setAttribute("type","text");
-	input.setAttribute("placeholder","Label 1");
+	input.setAttribute("placeholder","Label " + elementCount);
   input.className = "defaultForm";
   firstDiv.appendChild(input);
 
@@ -57,6 +64,7 @@ function createDefaultForm(){
   arrayOfElements.push(text,input,select1,select2,breakLine);
 }
 
+var labelCount = 1;
 var elementCount = 1;
 var map = new Map();
 var arrayOfElements = [];
@@ -65,6 +73,10 @@ function addItem(type) {
   if(type == "text" || type == "checkbox" || type == "radio"){
     var element = document.createElement("input");
     element.setAttribute("type",type);
+    if(type == "text") {
+      ++labelCount;
+    }
+    element.setAttribute("placeholder","Label " + elementCount);
     element.className = "defaultForm";
     firstDiv.appendChild(element);
     arrayOfElements.push(element);
@@ -93,9 +105,8 @@ function addItem(type) {
 }
 
 var dropDown = document.getElementById("existingForm");
-  // Store the array of current form into a map
-function storeForm(){
-  var userInput = document.getElementById("userInput").value;
+  // Store the copied array of current form into a map
+function storeForm(userInput){
   var option = new Option(userInput);
   dropDown.appendChild(option);
   var clonedArray = arrayOfElements.slice(0);
@@ -109,8 +120,44 @@ function getForm(selectedItem) {
   var div = document.getElementById("Forms");
   var array = map.get(selectedItem);
   div.innerHTML = "";
-  for(i = 0;i<array.length;i++){
+  for(i = 0; i < array.length; i++){
     div.appendChild(array[i]);
   }
 }
 
+  // Create an example form, so the the Formulars dropdown is not empty
+function exampleForm() {
+	var text1 = document.createElement("span");
+	var text2 = document.createElement("span");
+	var text3 = document.createElement("span");
+	var text4 = document.createElement("span");
+	var node1 = document.createTextNode("Element 1");
+	var node2 = document.createTextNode("Element 2");
+	var node3 = document.createTextNode("Element 3");
+	text1.appendChild(node1);
+	text2.appendChild(node2);
+	text3.appendChild(node3);
+
+	var input1 = document.createElement("input");
+	input1.setAttribute("type","text");
+	input1.setAttribute("placeholder","Label " + 1);
+  input1.className = "defaultForm";
+	var input2 = document.createElement("input");
+	input2.setAttribute("type","text");
+  input2.setAttribute("placeholder","Label " + 2);
+  input2.className = "defaultForm";
+
+  var checkbox = document.createElement("input");
+  checkbox.setAttribute("type","checkbox");
+  checkbox.className = "defaultForm";
+  var node4 = document.createTextNode("Example:");
+  text4.appendChild(node4);
+  text4.className = "defaultForm";
+  var select1 = document.createElement("select");
+	var option1 = new Option("Textbox","Value",false,false);
+  select1.className = "defaultForm";
+	select1.appendChild(option1);
+  var breakLine = document.createElement("br");
+  arrayOfElements.push(text1,input1,select1,text2,input2,breakLine,text3,text4,checkbox);
+  storeForm("Example");
+}
