@@ -17,6 +17,7 @@ function openPage(pageName, elmnt) {
 
     // Add the specific color to the button used to open the tab content
     elmnt.style.backgroundColor = "white";
+    return;
 }
 
 // Get the element with id="defaultOpen" and click on it
@@ -32,6 +33,7 @@ function searchForm(userInput) {
   for( var i = 0; i < array.length; i++ ) {
     firstDiv.appendChild(array[i]);
   }
+  return;
 }
 
 var firstDiv = document.getElementById("Administration");
@@ -62,6 +64,7 @@ function createDefaultForm(){
   var breakLine = document.createElement("br");
   firstDiv.appendChild(breakLine);
   arrayOfElements.push(text,input,select1,select2,breakLine);
+  return;
 }
 
 var labelCount = 1;
@@ -76,7 +79,7 @@ function addItem(type) {
     if(type == "text") {
       ++labelCount;
     }
-    element.setAttribute("placeholder","Label " + elementCount);
+    element.setAttribute("placeholder","Label " + labelCount);
     element.className = "defaultForm";
     firstDiv.appendChild(element);
     arrayOfElements.push(element);
@@ -102,27 +105,36 @@ function addItem(type) {
   arrayOfElements.push(element);
   arrayOfElements.push(text);
   element.className = "defaultForm";
+  return;
 }
 
 var dropDown = document.getElementById("existingForm");
   // Store the copied array of current form into a map
-function storeForm(userInput){
+function storeForm(userInput) {
+  if(map.has(userInput) == true){
+    var existingArray = map.get(userInput);
+    existingArray = existingArray.concat(arrayOfElements);
+    var clonedArray = existingArray.slice(0);
+  }
+  else{
   var option = new Option(userInput);
   dropDown.appendChild(option);
   var clonedArray = arrayOfElements.slice(0);
+  }
   arrayOfElements = [];
   map.set(userInput,clonedArray);
+  return;
 }
 
   // Search the map for the array of selected form and display it
 function getForm(selectedItem) {
-  var i;
   var div = document.getElementById("Forms");
   var array = map.get(selectedItem);
   div.innerHTML = "";
-  for(i = 0; i < array.length; i++){
+  for(var i = 0; i < array.length; i++){
     div.appendChild(array[i]);
   }
+  return;
 }
 
   // Create an example form, so the the Formulars dropdown is not empty
@@ -160,4 +172,5 @@ function exampleForm() {
   var breakLine = document.createElement("br");
   arrayOfElements.push(text1,input1,select1,text2,input2,breakLine,text3,text4,checkbox);
   storeForm("Example");
+  return;
 }
