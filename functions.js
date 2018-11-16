@@ -117,7 +117,6 @@ function getForm(selectedItem) {
       }
     else if (array[i].tagName == "SELECT") {
       var temp = document.createElement("input");
-      window.alert(array[i].selectedIndex);
       temp.setAttribute("type",array[i].value);
       if(array[i+1].value == "true") {
         temp.required = true;
@@ -142,7 +141,6 @@ function getForm(selectedItem) {
 function exampleForm() {
 	var text1 = document.createElement("span");
   var text2 = document.createElement("span");
-  var text3 = document.createElement("span");
   var input1 = document.createElement("input");
 	input1.setAttribute("type","text");
   input1.className = "defaultForm";
@@ -150,9 +148,6 @@ function exampleForm() {
   var input2 = document.createElement("input");;
   input2.value = "Label 2:*";
   input2.className = "defaultForm";
-  var input3 = document.createElement("input");;
-  input3.value = "Label 3:*";
-  input3.className = "defaultForm";
   var select1 = document.createElement("select");
 	var option1 = new Option("Textbox","input",true,true);
 	var option2 = new Option("Checkbox","checkbox",false,false);
