@@ -48,8 +48,7 @@ function createDefaultForm() {
   ++elementCount;
 	var text = document.createElement("span");
   text.setAttribute("display","inline");
-	var node = document.createTextNode("Element " + elementCount);
-	text.appendChild(node);
+  text.textContent = "Element " + elementCount;
   firstDiv.appendChild(text);
 
 	var input = document.createElement("input");
@@ -110,9 +109,8 @@ function getForm(selectedItem) {
   for(var i = 0; i < array.length; i++) {
     if(array[i].tagName == "INPUT") {
       var temp = document.createElement("span");
-      var node = document.createTextNode(array[i].value);
+      temp.textContent = array[i].value;
       temp.className = "defaultForm";
-      temp.appendChild(node);
       div.appendChild(temp);
       }
     else if (array[i].tagName == "SELECT") {
@@ -182,10 +180,15 @@ function exampleForm() {
   return;
 }
 
+
+var formReset = document.getElementById("valid");
+var dataMap = new Map();
 function submitForm() {
 var inpObj = document.getElementsByTagName('input');
 var spanObj = document.getElementsByTagName('span');
-//for(var i in inpObj) {
-//        console.log(inpObj[i].value);
-//    }
+for (var i = 0; i < spanObj.length; ++i){
+  dataMap.set(spanObj[i].textContent,inpObj[i+1].value);
+}
+formReset.reset();
+window.alert("Data submited!");
 }
