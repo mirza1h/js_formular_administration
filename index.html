@@ -18,7 +18,7 @@
   </div>
 	<div id="Formular" class="tabcontent">
     <p>Formular name:</p> 
-    <input type="submit" id="saveData" class="buttons" onclick="document.getElementById('valid').checkValidity()"</input>
+    <button type="submit" id="saveData" class="buttons" onclick="document.getElementById('valid').reset()">Submit</button>
     <form>
       <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
         <option value="" disabled selected hidden>Choose a form:</option>
