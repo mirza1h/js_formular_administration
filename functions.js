@@ -142,7 +142,7 @@ function storeForm(userInput) {
 
   // Search the map for the array of selected form and display it
 function getForm(selectedItem) {
-  var div = document.getElementById("Forms");
+  var div = document.getElementById("valid");
   var array = map.get(selectedItem);
   div.innerHTML = "";
   for(var i = 0; i < array.length; i++) {
@@ -155,10 +155,14 @@ function getForm(selectedItem) {
     } else if (array[i].tagName == "SELECT"){
       var temp = document.createElement("input");
       temp.setAttribute("type",array[i].value);
-      if(array[i+1].text == "Mandatory")
-        temp.setAttribute("required",array[i+1].value);
-      if(array[i+1].text == "Numeric")
-        temp.setAttribute("type",array[i+1].value);
+      //window.alert(array[i].value);
+      //window.alert(array[i+1].options[array[i+1].selectedIndex].text);
+      if(array[i+1].options[array[i+1].selectedIndex].text= "Mandatory"){
+        temp.required = true;
+      }
+      if(array[i+1].options[array[i+1].selectedIndex].text= "Numeric")
+        temp.setAttribute("type","number");
+      //window.alert(array[i].required);
       ++i;
       temp.className = "defaultForm";
       div.appendChild(temp);
