@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<meta name="viewport"  content="width,device-width, initial-scale=1">
+<meta name="viewport"  content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="tab.css">
 <head>
   <title>A Web Page</title>
@@ -18,7 +18,7 @@
   </div>
 	<div id="Formular" class="tabcontent">
     <p>Formular name:</p> 
-    <button type="submit" id="saveData" class="buttons" onclick="document.getElementById('valid').reset()">Submit</button>
+    <button type="submit" id="saveData" class="buttons" onclick="submitForm()">Submit</button>
     <form>
       <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
         <option value="" disabled selected hidden>Choose a form:</option>

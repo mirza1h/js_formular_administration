@@ -43,7 +43,7 @@ function searchForm(userInput) {
 }
 
 var firstDiv = document.getElementById("return");
-  // Creates three default form elements after invalid search
+  // Creates three default form elements after invalid search, and adds more fields
 function createDefaultForm() {
   ++elementCount;
 	var text = document.createElement("span");
@@ -182,3 +182,10 @@ function exampleForm() {
   return;
 }
 
+function submitForm() {
+var inpObj = document.getElementsByTagName('input');
+var spanObj = document.getElementsByTagName('span');
+//for(var i in inpObj) {
+//        console.log(inpObj[i].value);
+//    }
+}
