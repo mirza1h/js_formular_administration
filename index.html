@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <meta charset="UTF-8">
 <meta name="viewport"  content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="tab.css">
@@ -7,27 +8,27 @@
 </head>
 <body onload="exampleForm()">
   	<div class="tablink" onclick="openPage('Administration', this)" id="defaultOpen">Administration</div>
-	<div class="tablink" onclick="openPage('Formular', this)">Formular</div>
-	<div id="Administration" class="tabcontent">
+	  <div class="tablink" onclick="openPage('Formular', this)">Formular</div>
+	  <div id="Administration" class="tabcontent">
   		<p>Formular name:</p>
-		<input type="text" id="userInput" value="" autofocus> </input>
-		<button id="search" onclick="searchForm(document.getElementById('userInput').value)" class="buttons">Search</button>
-    <button id="save" onclick="storeForm(document.getElementById('userInput').value)" class="buttons">Save</button>
-    <button id="add" onclick="createDefaultForm()" class="buttons">Add</button>
+		  <input type="text" id="userInput" value="" autofocus> </input>
+		  <button id="search" onclick="searchForm(document.getElementById('userInput').value)" class="buttons">Search</button>
+      <button id="save" onclick="storeForm(document.getElementById('userInput').value)" class="buttons">Save</button>
+      <button id="add" onclick="createDefaultForm()" class="buttons">Add</button>
     <div id="return"></div>
-  </div>
-	<div id="Formular" class="tabcontent">
-    <p>Formular name:</p> 
-    <button type="submit" id="saveData" class="buttons" onclick="submitForm()">Submit</button>
-    <form>
-      <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
-        <option value="" disabled selected hidden>Choose a form:</option>
-      </select>
-    </form>
-    <div id="Forms">
-      <form id="valid">
+    </div>
+	  <div id="Formular" class="tabcontent">
+      <p>Formular name:</p> 
+      <button type="submit" id="saveData" class="buttons" onclick="submitForm()">Submit</button>
+      <form>
+        <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
+          <option value="" disabled selected hidden>Choose a form:</option>
+        </select>
       </form>
-  </div>
-  </div>
+      <div id="Forms">
+        <form id="valid"></form>
+      </div>
+    </div>
 <script src="functions.js"></script> 
 </body>
+</html>

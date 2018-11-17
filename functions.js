@@ -1,5 +1,5 @@
 var elementCount = 0;
-var map = new Map(); // Map used for storing forms. Keys are search inputs and array of form elements are values.
+var map = new Map(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
 var arrayOfElements = []; // Array used for temporary storage of every form.
 var dropDown = document.getElementById("existingForm");
 var firstDiv = document.getElementById("return");
@@ -28,28 +28,6 @@ function openPage(pageName, elmnt) {
 }
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
-
-function searchForm(userInput) {
-  // If search button is clicked without any input display warning.
-  if (userInput == "") {
-    window.alert("Please enter some text to search");
-    return;
-  }
-  // If form doesn't exists inside map. Create a new one under that name.
-  var array = map.get(userInput);
-  if (array == undefined) {
-    window.alert("Form doesn't exist. Create a form: " + userInput);
-    document.getElementById("add").style.display = "block";
-    createDefaultForm();
-    return;
-  }
-  // Reset page, so a new form can be displayed.
-  firstDiv.innerHTML = "";
-  for( var i = 0; i < array.length; i++ ) {
-    firstDiv.appendChild(array[i]);
-  }
-  return;
-}
 
 // Creates three default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
@@ -152,6 +130,42 @@ function getForm(selectedItem) {
   return;
 }
 
+function searchForm(userInput) {
+  // If search button is clicked without any input display warning.
+  if (userInput == "") {
+    window.alert("Please enter some text to search");
+    return;
+  }
+  // If form doesn't exists inside map. Create a new one under that name.
+  var array = map.get(userInput);
+  if (array == undefined) {
+    window.alert("Form doesn't exist. Create a form: " + userInput);
+    document.getElementById("add").style.display = "block";
+    createDefaultForm();
+    return;
+  }
+  // Reset page, so a new form can be displayed.
+  firstDiv.innerHTML = "";
+  for( var i = 0; i < array.length; i++ ) {
+    firstDiv.appendChild(array[i]);
+  }
+  return;
+}
+
+// Store the user input into map and reset fields.
+function submitForm() {
+  // Get data.
+  var inpObj = document.getElementsByTagName('input');
+  // Get the labels.
+  var spanObj = document.getElementsByTagName('span');
+  // Store them in a map.
+  for (var i = 0; i < spanObj.length; ++i){
+    dataMap.set(spanObj[i].textContent,inpObj[i+1].value);
+  }
+  formReset.reset();
+  window.alert("Data submited!");
+}
+
 // Create an example form on wabpage load, so the Formulars dropdown is not empty.
 function exampleForm() {
 	var text1 = document.createElement("span");
@@ -203,16 +217,3 @@ function exampleForm() {
 }
 
 
-// Store the user input into map and reset fields.
-function submitForm() {
-  // Get data.
-  var inpObj = document.getElementsByTagName('input');
-  // Get the labels.
-  var spanObj = document.getElementsByTagName('span');
-  // Store them in a map.
-  for (var i = 0; i < spanObj.length; ++i){
-    dataMap.set(spanObj[i].textContent,inpObj[i+1].value);
-  }
-  formReset.reset();
-  window.alert("Data submited!");
-}
