@@ -148,6 +148,9 @@ function searchForm(userInput) {
   firstDiv.innerHTML = "";
   for( var i = 0; i < array.length; i++ ) {
     firstDiv.appendChild(array[i]);
+    // Restore number of elements in form in case of editing.
+    if(array[i].tagName == "SPAN")
+      elementCount = parseInt(array[i].textContent.substr(8),10);
   }
   return;
 }
@@ -159,7 +162,7 @@ function submitForm() {
   // Get the labels.
   var spanObj = document.getElementsByTagName('span');
   // Store them in a map.
-  for (var i = 0; i < spanObj.length; ++i){
+  for (var i = 0; i < spanObj.length; ++i) {
     dataMap.set(spanObj[i].textContent,inpObj[i+1].value);
   }
   formReset.reset();
