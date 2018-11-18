@@ -127,6 +127,8 @@ function getForm(selectedItem) {
       div.appendChild(temp);
     }
   }
+  // Display validation messages.
+  formReset.reportValidity();
   return;
 }
 
@@ -146,7 +148,7 @@ function searchForm(userInput) {
   }
   // Reset page, so a new form can be displayed.
   firstDiv.innerHTML = "";
-  for( var i = 0; i < array.length; i++ ) {
+  for(var i = 0; i < array.length; i++ ) {
     firstDiv.appendChild(array[i]);
     // Restore number of elements in form in case of editing.
     if(array[i].tagName == "SPAN")
@@ -162,12 +164,33 @@ function submitForm() {
   // Get the labels.
   var spanObj = document.getElementsByTagName('span');
   // Store them in a map.
-  for (var i = 0; i < spanObj.length; ++i) {
+  for(var i = 0; i < spanObj.length; ++i) {
     dataMap.set(spanObj[i].textContent,inpObj[i+1].value);
   }
-  formReset.reset();
-  window.alert("Data submited!");
+  if(validation(inpObj) == 1) {
+    formReset.reset();
+    window.alert("Data submited!");
+  }
 }
+
+
+// Check for empty inputs and focus on them.
+function validation(inputs) {
+  var empty = 0;
+  for(var i = 0;i<inputs.length; ++i) {
+    if(inputs[i].type == "text" && inputs[i].value == "") {
+      ++empty;
+      inputs[i].focus();
+      alert("Fill out mandatory fields!");
+    }
+  }
+  if(empty != 0)
+    return 0;
+  else
+    return 1;
+}
+
+
 
 // Create an example form on wabpage load, so the Formulars dropdown is not empty.
 function exampleForm() {
