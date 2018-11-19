@@ -1,7 +1,7 @@
 var elementCount = 0;
 var mapOfForms = new Map(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
 var arrayOfElements = []; // Array used for temporary storage of every form.
-var dropDown = document.getElementById("existingForm");
+var dropdown = document.getElementById("existingForm");
 var firstDiv = document.getElementById("return");
 var formReset = document.getElementById("valid");
 var dataMap = new Map();  // Map used for submiting data. Keys are labels, and values are user inputs.
@@ -73,19 +73,21 @@ function createDefaultForm() {
   var select1 = document.createElement("select");
 	var option1 = new Option("Textbox","input",false,false);
 	var option2 = new Option("Checkbox","checkbox",false,false);
-
+	var option3 = new Option("Radio","radio",false,false);
+  select1.addEventListener("click",checkIt);
   var select2 = document.createElement("select");
-	var option3 = new Option("Mandatory","true",false,false);
-	var option4 = new Option("None","false",false,false);
-	var option5 = new Option("Numeric","number",false,false);
+	var option4 = new Option("Mandatory","true",false,false);
+	var option5 = new Option("None","false",false,false);
+	var option6 = new Option("Numeric","number",false,false);
 
   select1.className = "defaultForm";
   select2.className = "defaultForm";
 	select1.appendChild(option1);
 	select1.appendChild(option2);
-	select2.appendChild(option3);
+  select1.appendChild(option3);
 	select2.appendChild(option4);
 	select2.appendChild(option5);
+	select2.appendChild(option6);
 	firstDiv.appendChild(select1);
 	firstDiv.appendChild(select2);
   // Add a new line.
@@ -94,6 +96,26 @@ function createDefaultForm() {
   // Push all created elements to array.
   arrayOfElements.push(text,input,select1,select2,breakLine);
   return;
+}
+
+// Event listener functions that creates radio buttons and labels.
+function checkIt(event){
+  console.log(event.target.value);
+  if(event.target.value == "radio") {
+    var label = document.createElement("input");
+    var radio = document.createElement("input");
+    var br = document.createElement("br");
+    radio.type = "radio";
+    label.type = "text";
+    radio.className = "defaultForm";
+    label.className = "defaultForm";
+    firstDiv.appendChild(radio);
+    firstDiv.appendChild(label);
+    firstDiv.appendChild(br);
+    arrayOfElements.push(radio);
+    arrayOfElements.push(label);
+    arrayOfElements.push(br);
+  }
 }
 
 
@@ -110,7 +132,7 @@ function storeForm(userInput) {
   // A new form was just created so add the option with that name to dropdown.
   else {
     var option = new Option(userInput);
-    dropDown.appendChild(option);
+    dropdown.appendChild(option);
     var clonedArray = arrayOfElements.slice(0);
   }
   // Reset array so a new form can be added and store a copy of form in a map.
@@ -131,15 +153,26 @@ function getForm(selectedItem) {
   div.innerHTML = "";
   // Loop through elements and convert them based on input, also add validation.
   for(var i = 0; i < array.length; ++i) {
-    if(array[i].tagName == "INPUT") {
-      var temp = document.createElement("span");
+    if(array[i].type == "radio"){
+      var temp = document.createElement("input");
+      temp.setAttribute("type","radio");
+      temp.className = "defaultForm";
+      div.appendChild(temp);
+    }
+    if(array[i].tagName == "INPUT" && array[i].type != "radio") {
+      if(array[i+1].value == "radio")
+        var temp = document.createElement("p");
+      else
+        var temp = document.createElement("span");
       temp.textContent = array[i].value;
       temp.className = "defaultForm";
       div.appendChild(temp);
       }
-    else if (array[i].tagName == "SELECT") {
-      var temp = document.createElement("input");
-      temp.setAttribute("type",array[i].value);
+    else if(array[i].tagName == "SELECT") {
+      if(array[i].value != "radio"){
+        var temp = document.createElement("input");
+        temp.setAttribute("type",array[i].value);
+      }
       if(array[i+1].value == "true") {
         temp.required = true;
       }
@@ -152,7 +185,7 @@ function getForm(selectedItem) {
       temp.className = "defaultForm";
       div.appendChild(temp);
     }
-    else if (array[i].tagName == "BR"){
+    else if(array[i].tagName == "BR"){
       var temp = document.createElement("br");
       temp.className = "defaultForm";
       div.appendChild(temp);
@@ -167,12 +200,12 @@ function getForm(selectedItem) {
 // Store the user input into map and reset fields.
 function submitForm() {
   // Get data.
-  var inpObj = document.getElementsByTagName('input');
+  var inpObj = formReset.getElementsByTagName("input");
   // Get the labels.
-  var spanObj = document.getElementsByTagName('span');
+  var spanObj = document.getElementsByTagName("span");
   // Store them in a map.
   for(var i = 0; i < spanObj.length; ++i) {
-    dataMap.set(spanObj[i].textContent,inpObj[i+1].value);
+    dataMap.set(spanObj[i].textContent,inpObj[i].value);
   }
   if(validation(inpObj) == 1) {
     formReset.reset();
@@ -213,6 +246,8 @@ function exampleForm() {
   var select1 = document.createElement("select");
 	var option1 = new Option("Textbox","input",true,true);
 	var option2 = new Option("Checkbox","checkbox",false,false);
+	var option0 = new Option("Radio","radio",false,false);
+  select1.addEventListener("click",checkIt);
 
   var select2 = document.createElement("select");
 	var option3 = new Option("Mandatory","true",false,false);
@@ -223,6 +258,7 @@ function exampleForm() {
   select2.className = "defaultForm";
 	select1.appendChild(option1);
 	select1.appendChild(option2);
+	select1.appendChild(option0);
 	select2.appendChild(option3);
 	select2.appendChild(option4);
 	select2.appendChild(option5);
@@ -241,9 +277,9 @@ function exampleForm() {
 	select4.appendChild(option8);
 	select4.appendChild(option9);
 	select4.appendChild(option10);
-
+  var p = document.createElement("p");
   var br = document.createElement("br");
-  arrayOfElements.push(text1,input1,select1,select2,br,text2,input2,select3,select4,br);
+  arrayOfElements.push(text1,input1,select1,select2,br,p,text2,input2,select3,select4,br);
   storeForm("Example");
   return;
 }
