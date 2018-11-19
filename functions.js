@@ -1,5 +1,5 @@
 var elementCount = 0;
-var map = new Map(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
+var mapOfForms = new Map(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
 var arrayOfElements = []; // Array used for temporary storage of every form.
 var dropDown = document.getElementById("existingForm");
 var firstDiv = document.getElementById("return");
@@ -9,25 +9,52 @@ var dataMap = new Map();  // Map used for submiting data. Keys are labels, and v
 
 // Switch between pages and color tabs.
 function openPage(pageName, elmnt) {
-  // Hide all elements with class="tabcontent" by default */
-  var i, tabcontent, tablinks;
+  // Hide all elements with class="tabcontent" by default.
+  var tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
+  for (var i = 0; i < tabcontent.length; ++i) {
     tabcontent[i].style.display = "none";
   }
-  // Remove the background color of all tablinks/buttons
+  // Remove the background color of all buttons.
   tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < tablinks.length; i++) {
+  for (var i = 0; i < tablinks.length; ++i) {
     tablinks[i].style.backgroundColor = "";
   }
-  // Show the specific tab content
+  // Show the specific tab content.
   document.getElementById(pageName).style.display = "block";
-  // Add the specific color to the button used to open the tab content
+  // Add the specific color to the button used to open the tab content.
   elmnt.style.backgroundColor = "white";
   return;
 }
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
+
+
+function searchForm(userInput) {
+  // If search button is clicked without any input display warning.
+  if (userInput == "") {
+    window.alert("Please enter some text to search");
+    return;
+  }
+  // If form doesn't exists inside map create a new one under that name.
+  var array = mapOfForms.get(userInput);
+  if (array == undefined) {
+    window.alert("Form doesn't exist. Create a form: " + userInput);
+    document.getElementById("add").style.display = "block";
+    createDefaultForm();
+    return;
+  }
+  // Reset page, so a new form can be displayed.
+  firstDiv.innerHTML = "";
+  for(var i = 0; i < array.length; i++ ) {
+    firstDiv.appendChild(array[i]);
+    // Restore number of elements in form in case of editing.
+    if(array[i].tagName == "SPAN")
+      elementCount = parseInt(array[i].textContent.substr(8),10);
+  }
+  return;
+}
+
 
 // Creates three default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
@@ -69,13 +96,14 @@ function createDefaultForm() {
   return;
 }
 
+
 // Store the copied array of current form into a map
 // and add a new option to Formulars dropdown.
 function storeForm(userInput) {
   elementCount=0;
   // If form existed before add new elements to it by concating previous and current array.
-  if(map.has(userInput) == true) {
-    var existingArray = map.get(userInput);
+  if(mapOfForms.has(userInput) == true) {
+    var existingArray = mapOfForms.get(userInput);
     existingArray = existingArray.concat(arrayOfElements);
     var clonedArray = existingArray.slice(0);
   }
@@ -87,21 +115,22 @@ function storeForm(userInput) {
   }
   // Reset array so a new form can be added and store a copy of form in a map.
   arrayOfElements = [];
-  map.set(userInput,clonedArray);
+  mapOfForms.set(userInput,clonedArray);
   firstDiv.innerHTML = "";
   return;
 }
+
 
 // Search the map for the array of selected form and
 // convert to form items based on user selection.
 function getForm(selectedItem) {
   var div = document.getElementById("valid");
   // Fetch array with that name.
-  var array = map.get(selectedItem);
+  var array = mapOfForms.get(selectedItem);
   // Reset div so a new form can be displayed.
   div.innerHTML = "";
   // Loop through elements and convert them based on input, also add validation.
-  for(var i = 0; i < array.length; i++) {
+  for(var i = 0; i < array.length; ++i) {
     if(array[i].tagName == "INPUT") {
       var temp = document.createElement("span");
       temp.textContent = array[i].value;
@@ -117,6 +146,8 @@ function getForm(selectedItem) {
       else if(array[i+1].value == "number") {
         temp.setAttribute("type","number");
       }
+      else
+	      temp.required = false;
       ++i;
       temp.className = "defaultForm";
       div.appendChild(temp);
@@ -132,30 +163,6 @@ function getForm(selectedItem) {
   return;
 }
 
-function searchForm(userInput) {
-  // If search button is clicked without any input display warning.
-  if (userInput == "") {
-    window.alert("Please enter some text to search");
-    return;
-  }
-  // If form doesn't exists inside map. Create a new one under that name.
-  var array = map.get(userInput);
-  if (array == undefined) {
-    window.alert("Form doesn't exist. Create a form: " + userInput);
-    document.getElementById("add").style.display = "block";
-    createDefaultForm();
-    return;
-  }
-  // Reset page, so a new form can be displayed.
-  firstDiv.innerHTML = "";
-  for(var i = 0; i < array.length; i++ ) {
-    firstDiv.appendChild(array[i]);
-    // Restore number of elements in form in case of editing.
-    if(array[i].tagName == "SPAN")
-      elementCount = parseInt(array[i].textContent.substr(8),10);
-  }
-  return;
-}
 
 // Store the user input into map and reset fields.
 function submitForm() {
@@ -177,8 +184,8 @@ function submitForm() {
 // Check for empty inputs and focus on them.
 function validation(inputs) {
   var empty = 0;
-  for(var i = 0;i<inputs.length; ++i) {
-    if(inputs[i].type == "text" && inputs[i].value == "") {
+  for(var i = 0;i < inputs.length; ++i) {
+    if(inputs[i].required == true && inputs[i].value == "") {
       ++empty;
       inputs[i].focus();
       alert("Fill out mandatory fields!");
@@ -189,7 +196,6 @@ function validation(inputs) {
   else
     return 1;
 }
-
 
 
 // Create an example form on wabpage load, so the Formulars dropdown is not empty.
