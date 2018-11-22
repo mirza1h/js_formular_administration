@@ -50,8 +50,9 @@ function searchForm(userInput) {
     firstDiv.appendChild(array[i]);
     // Restore number of elements in form in case of editing.
     if(array[i].tagName == "SPAN")
-      elementCount = parseInt(array[i].textContent.substr(8),10);
+      var lastNumber = array[i].textContent;
   }
+  elementCount = parseInt(lastNumber.substr(8),10);
   return;
 }
 
@@ -91,10 +92,10 @@ function createDefaultForm() {
 	firstDiv.appendChild(select1);
 	firstDiv.appendChild(select2);
   // Add a new line.
-  var breakLine = document.createElement("br");
-  firstDiv.appendChild(breakLine);
+  var br = document.createElement("br");
+  firstDiv.appendChild(br);
   // Push all created elements to array.
-  arrayOfElements.push(text,input,select1,select2,breakLine);
+  arrayOfElements.push(text,input,select1,select2,br);
   return;
 }
 
@@ -204,12 +205,12 @@ function submitForm() {
   // Get the labels.
   var spanObj = document.getElementsByTagName("span");
   // Store them in a map.
-  for(var i = 0; i < spanObj.length; ++i) {
-    dataMap.set(spanObj[i].textContent,inpObj[i].value);
-  }
   if(validation(inpObj) == 1) {
+    for(var i = 0; i < spanObj.length; ++i) {
+      dataMap.set(spanObj[i].textContent,inpObj[i].value);
+    }
     formReset.reset();
-    window.alert("Data submited!");
+    window.alert("Data submitted!");
   }
 }
 
@@ -234,52 +235,56 @@ function validation(inputs) {
 // Create an example form on wabpage load, so the Formulars dropdown is not empty.
 function exampleForm() {
 	var text1 = document.createElement("span");
+  text1.textContent = "Element 1";
   var text2 = document.createElement("span");
+  text2.textContent = "Element 2";
   var input1 = document.createElement("input");
-	input1.setAttribute("type","text");
-  input1.className = "defaultForm";
-	input1.value = "Label 1:";
+	  input1.setAttribute("type","text");
+    input1.className = "defaultForm";
+	  input1.value = "Label 1:";
   var input2 = document.createElement("input");;
-  input2.value = "Label 2:*";
-  input2.className = "defaultForm";
+    input2.value = "Label 2:*";
+    input2.className = "defaultForm";
 
   var select1 = document.createElement("select");
-	var option1 = new Option("Textbox","input",true,true);
-	var option2 = new Option("Checkbox","checkbox",false,false);
-	var option0 = new Option("Radio","radio",false,false);
+	  var option1 = new Option("Textbox","input",true,true);
+	  var option2 = new Option("Checkbox","checkbox",false,false);
+	  var option3 = new Option("Radio","radio",false,false);
   select1.addEventListener("click",checkIt);
 
   var select2 = document.createElement("select");
-	var option3 = new Option("Mandatory","true",false,false);
-	var option4 = new Option("None","false",false,false);
-	var option5 = new Option("Numeric","number",true,true);
+	  var option4 = new Option("Mandatory","true",false,false);
+	  var option5 = new Option("None","false",false,false);
+	  var option6 = new Option("Numeric","number",true,true);
 
   select1.className = "defaultForm";
   select2.className = "defaultForm";
 	select1.appendChild(option1);
 	select1.appendChild(option2);
-	select1.appendChild(option0);
-	select2.appendChild(option3);
+	select1.appendChild(option3);
 	select2.appendChild(option4);
 	select2.appendChild(option5);
+	select2.appendChild(option6);
+
   var select3 = document.createElement("select");
-	var option6 = new Option("Textbox","input",false,false);
-	var option7 = new Option("Checkbox","checkbox",true,true);
+	  var option6 = new Option("Textbox","input",false,false);
+	  var option7 = new Option("Checkbox","checkbox",true,true);
+	  var option8 = new Option("Radio","radio",false,false);
 
   var select4 = document.createElement("select");
-  var option8 = new Option("Mandatory","true",true,true);
-	var option9 = new Option("None","false",false,false);
-	var option10 = new Option("Numeric","number",false,false);
+    var option9 = new Option("Mandatory","true",true,true);
+	  var option10 = new Option("None","false",false,false);
+	  var option11 = new Option("Numeric","number",false,false);
   select3.className = "defaultForm";
   select4.className = "defaultForm";
 	select3.appendChild(option6);
 	select3.appendChild(option7);
-	select4.appendChild(option8);
+	select3.appendChild(option8);
 	select4.appendChild(option9);
 	select4.appendChild(option10);
-  var p = document.createElement("p");
+	select4.appendChild(option11);
   var br = document.createElement("br");
-  arrayOfElements.push(text1,input1,select1,select2,br,p,text2,input2,select3,select4,br);
+  arrayOfElements.push(text1,input1,select1,select2,br,text2,input2,select3,select4,br);
   storeForm("Example");
   return;
 }
