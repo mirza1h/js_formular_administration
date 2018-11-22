@@ -99,7 +99,7 @@ function createDefaultForm() {
   return;
 }
 
-// Event listener functions that creates radio buttons and labels.
+// Event listener function that creates radio buttons and labels.
 function checkIt(event){
   console.log(event.target.value);
   if(event.target.value == "radio") {
