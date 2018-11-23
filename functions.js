@@ -107,15 +107,14 @@ function checkIt(event){
     var radio = document.createElement("input");
     var br = document.createElement("br");
     radio.type = "radio";
+    radio.checked = false;
     label.type = "text";
-    radio.className = "defaultForm";
+    radio.className = "radios";
     label.className = "defaultForm";
     firstDiv.appendChild(radio);
     firstDiv.appendChild(label);
     firstDiv.appendChild(br);
-    arrayOfElements.push(radio);
-    arrayOfElements.push(label);
-    arrayOfElements.push(br);
+    arrayOfElements.push(radio,label,br);
   }
 }
 
@@ -157,16 +156,14 @@ function getForm(selectedItem) {
     if(array[i].type == "radio"){
       var temp = document.createElement("input");
       temp.setAttribute("type","radio");
-      temp.className = "defaultForm";
+      temp.className = "radios";
+      temp.checked = false;
       div.appendChild(temp);
     }
     if(array[i].tagName == "INPUT" && array[i].type != "radio") {
-      if(array[i+1].value == "radio")
-        var temp = document.createElement("p");
-      else
-        var temp = document.createElement("span");
+      var temp = document.createElement("span");
       temp.textContent = array[i].value;
-      temp.className = "defaultForm";
+      temp.className = "labels";
       div.appendChild(temp);
       }
     else if(array[i].tagName == "SELECT") {
@@ -186,7 +183,7 @@ function getForm(selectedItem) {
       temp.className = "defaultForm";
       div.appendChild(temp);
     }
-    else if(array[i].tagName == "BR"){
+    else if(array[i].tagName == "BR" && array[i].type != "radio"){
       var temp = document.createElement("br");
       temp.className = "defaultForm";
       div.appendChild(temp);
@@ -203,10 +200,12 @@ function submitForm() {
   // Get data.
   var inpObj = formReset.getElementsByTagName("input");
   // Get the labels.
-  var spanObj = document.getElementsByTagName("span");
+  var spanObj = document.getElementsByClassName("labels");
   // Store them in a map.
   if(validation(inpObj) == 1) {
     for(var i = 0; i < spanObj.length; ++i) {
+      if(inpObj[i].value == "on" && inpObj[i].checked == false)
+        inpObj[i].value = "off";
       dataMap.set(spanObj[i].textContent,inpObj[i].value);
     }
     formReset.reset();

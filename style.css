@@ -72,4 +72,15 @@ button:focus {outline:0;}
 
 .defaultForm {
   margin: 10px;
+  justify-content: space-around;
+}
+
+.labels {
+  margin: 10px;
+  justify-content: space-around;
+}
+
+.radios {
+  margin: 10px;
+  justify-content: space-around;
 }
