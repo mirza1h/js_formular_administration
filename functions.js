@@ -125,9 +125,11 @@ function radioLabels(event) {
     var br = document.createElement("br");
     radio.type = "radio";
     radio.checked = false;
-    label.type = "text";
     radio.className = "radios";
+    radio.id = "radio " + i;
+    label.type = "text";
     label.className = "defaultForm";
+    label.id = "label " + i;
     firstDiv.appendChild(br);
     firstDiv.appendChild(radio);
     firstDiv.appendChild(label);
@@ -178,9 +180,15 @@ function getForm(selectedItem) {
       div.appendChild(temp);
     }
     if(array[i].tagName == "INPUT" && array[i].type != "radio") {
+      if(array[i+1].value == "radio"){
+        var temp = document.createElement("p");
+        temp.className = "defaultForm";
+      }
+      else {
       var temp = document.createElement("span");
-      temp.textContent = array[i].value;
       temp.className = "labels";
+      }
+      temp.textContent = array[i].value;
       div.appendChild(temp);
     }
     else if(array[i].tagName == "SELECT") {
@@ -193,10 +201,14 @@ function getForm(selectedItem) {
       }
       else if(array[i+1].value == "number") {
         temp.setAttribute("type","number");
+        temp.required = true;
       }
       else
 	      temp.required = false;
-      i+=2;
+      if(array[i].value == "radio")
+        i+=2;
+      else
+        ++i;
       temp.className = "defaultForm";
       div.appendChild(temp);
     }
@@ -217,12 +229,13 @@ function submitForm() {
   // Get data.
   var inpObj = formReset.getElementsByTagName("input");
   // Get the labels.
-  var spanObj = document.getElementsByClassName("labels");
+  var spanObj = formReset.getElementsByClassName("labels");
   // Store them in a map.
   if(validation(inpObj) == 1) {
     for(var i = 0; i < spanObj.length; ++i) {
       if(inpObj[i].value == "on" && inpObj[i].checked == false)
         inpObj[i].value = "off";
+      console.log(spanObj[i].textContent,inpObj[i].value);
       dataMap.set(spanObj[i].textContent,inpObj[i].value);
     }
     formReset.reset();
@@ -237,8 +250,8 @@ function validation(inputs) {
   for(var i = 0;i < inputs.length; ++i) {
     if(inputs[i].required == true && inputs[i].value == "") {
       ++empty;
-      inputs[i].focus();
       alert("Fill out mandatory fields!");
+      inputs[i].focus();
     }
   }
   if(empty != 0)
@@ -286,6 +299,7 @@ function exampleForm() {
 	  var option6 = new Option("Textbox","input",false,false);
 	  var option7 = new Option("Checkbox","checkbox",true,true);
 	  var option8 = new Option("Radio","radio",false,false);
+  select3.addEventListener("click",radioSelected);
 
   var select4 = document.createElement("select");
     var option9 = new Option("Mandatory","true",true,true);
@@ -300,7 +314,7 @@ function exampleForm() {
 	select4.appendChild(option10);
 	select4.appendChild(option11);
   var br = document.createElement("br");
-  arrayOfElements.push(text1,input1,select1,select2,br,text2,input2,select3,select4,br);
+  arrayOfElements.push(br,text1,input1,select1,select2,br,text2,input2,select3,select4);
   storeForm("Example");
   return;
 }
