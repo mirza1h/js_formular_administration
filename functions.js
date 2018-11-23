@@ -59,6 +59,9 @@ function searchForm(userInput) {
 
 // Creates three default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
+  // Add a new line.
+  var br = document.createElement("br");
+  firstDiv.appendChild(br);
   ++elementCount;
 	// Create element labels.
   var text = document.createElement("span");
@@ -75,7 +78,7 @@ function createDefaultForm() {
 	var option1 = new Option("Textbox","input",false,false);
 	var option2 = new Option("Checkbox","checkbox",false,false);
 	var option3 = new Option("Radio","radio",false,false);
-  select1.addEventListener("click",checkIt);
+  select1.addEventListener("click",radioSelected);
   var select2 = document.createElement("select");
 	var option4 = new Option("Mandatory","true",false,false);
 	var option5 = new Option("None","false",false,false);
@@ -91,18 +94,32 @@ function createDefaultForm() {
 	select2.appendChild(option6);
 	firstDiv.appendChild(select1);
 	firstDiv.appendChild(select2);
-  // Add a new line.
-  var br = document.createElement("br");
-  firstDiv.appendChild(br);
   // Push all created elements to array.
-  arrayOfElements.push(text,input,select1,select2,br);
+  arrayOfElements.push(br,text,input,select1,select2);
   return;
 }
 
 // Event listener function that creates radio buttons and labels.
-function checkIt(event){
-  console.log(event.target.value);
+function radioSelected(event){
   if(event.target.value == "radio") {
+    var select1 = document.createElement("select");
+	  var option1 = new Option("2","2",false,false);
+	  var option2 = new Option("3","3",false,false);
+	  var option3 = new Option("4","4",false,false);
+    select1.addEventListener("click",radioLabels);
+    select1.className = "defaultForm";
+    select1.appendChild(option1);
+	  select1.appendChild(option2);
+    select1.appendChild(option3);
+    firstDiv.appendChild(select1);
+    arrayOfElements.push(select1);
+  }
+}
+
+
+function radioLabels(event) {
+  var number = event.target.value;
+  for(var i = 0; i < number; ++i){
     var label = document.createElement("input");
     var radio = document.createElement("input");
     var br = document.createElement("br");
@@ -111,10 +128,10 @@ function checkIt(event){
     label.type = "text";
     radio.className = "radios";
     label.className = "defaultForm";
+    firstDiv.appendChild(br);
     firstDiv.appendChild(radio);
     firstDiv.appendChild(label);
-    firstDiv.appendChild(br);
-    arrayOfElements.push(radio,label,br);
+    arrayOfElements.push(br,radio,label);
   }
 }
 
@@ -179,7 +196,7 @@ function getForm(selectedItem) {
       }
       else
 	      temp.required = false;
-      ++i;
+      i+=2;
       temp.className = "defaultForm";
       div.appendChild(temp);
     }
@@ -249,7 +266,7 @@ function exampleForm() {
 	  var option1 = new Option("Textbox","input",true,true);
 	  var option2 = new Option("Checkbox","checkbox",false,false);
 	  var option3 = new Option("Radio","radio",false,false);
-  select1.addEventListener("click",checkIt);
+  select1.addEventListener("click",radioSelected);
 
   var select2 = document.createElement("select");
 	  var option4 = new Option("Mandatory","true",false,false);
