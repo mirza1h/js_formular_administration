@@ -170,7 +170,7 @@ function getForm(selectedItem) {
   div.innerHTML = "";
   // Loop through elements and convert them based on input, also add validation.
   for(var i = 0; i < array.length; ++i) {
-    if(array[i].type == "radio"){
+    if(array[i].type == "radio") {
       var temp = document.createElement("input");
       temp.setAttribute("type","radio");
       temp.className = "radios";
@@ -182,7 +182,7 @@ function getForm(selectedItem) {
       temp.textContent = array[i].value;
       temp.className = "labels";
       div.appendChild(temp);
-      }
+    }
     else if(array[i].tagName == "SELECT") {
       if(array[i].value != "radio"){
         var temp = document.createElement("input");
@@ -200,7 +200,7 @@ function getForm(selectedItem) {
       temp.className = "defaultForm";
       div.appendChild(temp);
     }
-    else if(array[i].tagName == "BR" && array[i].type != "radio"){
+    else if(array[i].tagName == "BR") {
       var temp = document.createElement("br");
       temp.className = "defaultForm";
       div.appendChild(temp);
