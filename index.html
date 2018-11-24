@@ -6,7 +6,7 @@
 <head>
   <title>A Web Page</title>
 </head>
-<body onload="exampleForm()">
+<body>
   	<div class="tablink" onclick="openPage('Administration', this)" id="defaultOpen">Administration</div>
 	  <div class="tablink" onclick="openPage('Formular', this)">Formular</div>
 	  <div id="Administration" class="tabcontent">
@@ -18,10 +18,10 @@
     <div id="return"></div>
     </div>
 	  <div id="Formular" class="tabcontent">
-      <span id="formularName">Formular name:</span> 
+      <span id="formularName">Formular name: </span> 
       <form>
         <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
-          <option value="" disabled selected hidden>Choose a form:</option>
+          <option value=" " disabled selected hidden>Choose a form:</option>
         </select>
       </form>
       <span id="versionText">Version</span>
@@ -32,7 +32,8 @@
         <form id="valid"></form>
       </div>
     </div>
-<script src="functions.js"></script> 
+<script src="function.js"></script> 
+<script src="data.js"></script> 
 </body>
 </html>
 
