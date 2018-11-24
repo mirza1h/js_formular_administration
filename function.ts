@@ -4,7 +4,11 @@ let mapOfForms: Map<string,Array<HTMLElement>>= new Map<string,Array<HTMLElement
 var dropdown: HTMLSelectElement = <HTMLSelectElement> document.getElementById("existingForm");
 var firstDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("return");
 var formReset: HTMLFormElement = <HTMLFormElement>document.getElementById("valid");
-
+var dataMap: Map<string,string> = new Map<string,string>();  // Map used for submiting data. Keys are labels, and values are user inputs.
+class htmlElements extends HTMLElement {
+  value?: any;
+  type?: any;
+}
 
 // Switch between pages and color tabs.
 function openPage(pageName: string, elmnt: HTMLElement) {
@@ -37,7 +41,7 @@ function searchForm(userInput: string) {
     return;
   }
   // If form doesn't exists inside map create a new one under that name.
-  var array = mapOfForms.get(userInput);
+  let array: htmlElements[] = mapOfForms.get(userInput);
   if (array == undefined) {
     window.alert("Form doesn't exist. Create a form: " + userInput);
     document.getElementById("add").style.display = "block";
@@ -61,61 +65,33 @@ function searchForm(userInput: string) {
 
 // Creates three default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
-  // Add a new line.
   let br: any = document.createElement("br");
   firstDiv.appendChild(br);
   ++elementCount;
-	// Create element labels.
   let text: HTMLSpanElement = (<HTMLSpanElement>document.createElement("span"));
   text.setAttribute("display","inline");
   text.textContent = "Element " + elementCount;
   firstDiv.appendChild(text);
-  // Create input fields.
-  let input: HTMLInputElement = (<HTMLInputElement>document.createElement("input"));
-  input.setAttribute("type","text");
-  input.className = "defaultForm";
-  firstDiv.appendChild(input);
-  // Create select dropdowns and add options.
-  let select1: HTMLSelectElement =(<HTMLSelectElement> document.createElement("select"));
-	let option1: HTMLOptionElement = new Option("Textbox","input",false,false);
-	var option2: HTMLOptionElement = new Option("Checkbox","checkbox",false,false);
-	var option3: HTMLOptionElement = new Option("Radio","radio",false,false);
-  select1.addEventListener("click",radioSelected);
-  select1.className = "defaultForm";
-  
-  let select2: HTMLSelectElement =(<HTMLSelectElement> document.createElement("select"));
-	var option4: HTMLOptionElement = new Option("Mandatory","true",false,false);
-	var option5: HTMLOptionElement = new Option("None","false",false,false);
-	var option6: HTMLOptionElement = new Option("Numeric","number",false,false);
-  select2.className = "defaultForm";
-
-	select1.appendChild(option1);
-	select1.appendChild(option2);
-  select1.appendChild(option3);
-  select2.appendChild(option4);
-	select2.appendChild(option5);
-	select2.appendChild(option6);
-	firstDiv.appendChild(select1);
-	firstDiv.appendChild(select2);
-  // Push all created elements to array.
-  arrayOfElements.push(br,text,input,select1,select2);
+  let input = new Inputs("text","inp"+elementCount,"defaultForm");
+  let selectDrop1 = new Select("Textbox","input","Checkbox","checkbox","Radio","radio")
+  selectDrop1.select.addEventListener("click",radioSelected);
+  selectDrop1.addName("defaultForm");
+  selectDrop1.append();
+  let selectDrop2 = new Select("Mandatory","true","None","false","Number","number")
+  selectDrop2.addName("defaultForm");
+  selectDrop2.append();
+  arrayOfElements.push(br,text,input.elmnt,selectDrop1.select,selectDrop2.select);
   return;
 }
 
 // Event listener function that creates a select form for number of radio labels.
 function radioSelected(event){
   if(event.target.value == "radio") {
-    let select1: HTMLSelectElement =(<HTMLSelectElement> document.createElement("select"));
-	  let option1: HTMLOptionElement = new Option("2","2",false,false);
-	  var option2: HTMLOptionElement = new Option("3","3",false,false);
-	  var option3: HTMLOptionElement = new Option("4","4",false,false);
-    select1.addEventListener("click",radioLabels);
-    select1.className = "defaultForm";
-    select1.appendChild(option1);
-	  select1.appendChild(option2);
-    select1.appendChild(option3);
-    firstDiv.appendChild(select1);
-    arrayOfElements.push(select1);
+    let selectDrop = new Select("2","2","3","3","4","4");
+    selectDrop.addName("defaultFrom");
+    selectDrop.append();
+    selectDrop.select.addEventListener("click",radioLabels);
+    arrayOfElements.push(selectDrop.select);
   }
 }
 
@@ -124,20 +100,13 @@ function radioLabels(event) {
   let num: number = event.target.value;
   let i: number;
   for( i = 0; i < num; ++i){
-    let label: HTMLInputElement = (<HTMLInputElement>document.createElement("input"));
-    let radio: HTMLInputElement = (<HTMLInputElement>document.createElement("input"));
+    let radio = new Inputs("radio","radio"+i,"radios");
+    let label = new Inputs("text","label"+i,"defaultForm");
     let br: HTMLBRElement = (<HTMLBRElement>document.createElement("br"));
-    radio.type = "radio";
-    radio.checked = false;
-    radio.className = "radios";
-    radio.id = "radio " + i;
-    label.type = "text";
-    label.className = "defaultForm";
-    label.id = "label " + i;
     firstDiv.appendChild(br);
-    firstDiv.appendChild(radio);
-    firstDiv.appendChild(label);
-    arrayOfElements.push(br,radio,label);
+    radio.append();
+    label.append();
+    arrayOfElements.push(br,radio.elmnt,label.elmnt);
   }
 }
 
@@ -164,20 +133,17 @@ function storeForm(userInput: string) {
   firstDiv.innerHTML = "";
   return;
 }
-class htmlElements extends HTMLElement{
-  value?: any;
-  type?: any;
-}
 
 // Search the map for the array of selected form and
 // convert to form items based on user selection.
 function getForm(selectedItem: string) {
   // Fetch array with that name.
   let array: htmlElements[] = (<htmlElements[]>mapOfForms.get(selectedItem));
+  let i: number;
   // Reset div so a new form can be displayed.
   formReset.innerHTML = "";
   // Loop through elements and convert them based on input, also add validation.
-  for(var i = 0; i < array.length; ++i) {
+  for(i = 0; i < array.length; ++i) {
     if(array[i].type == "radio") {
       let temp1: HTMLInputElement = (<HTMLInputElement>document.createElement("input"));
       temp1.type = "radio";
@@ -232,11 +198,10 @@ function getForm(selectedItem: string) {
   return;
 }
 
-var dataMap: Map<string,string> = new Map<string,string>();  // Map used for submiting data. Keys are labels, and values are user inputs.
 // Store the user input into map and reset fields.
 function submitForm() {
-let currentData = new Data();
-currentData.store(dataMap);
+  let currentData = new Data();
+  currentData.store(dataMap);
 }
 
 

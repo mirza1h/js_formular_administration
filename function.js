@@ -33,7 +33,7 @@ function searchForm(userInput) {
         return;
     }
     // If form doesn't exists inside map create a new one under that name.
-    var array = mapOfForms.get(userInput);
+    let array = mapOfForms.get(userInput);
     if (array == undefined) {
         window.alert("Form doesn't exist. Create a form: " + userInput);
         document.getElementById("add").style.display = "block";
@@ -70,43 +70,25 @@ function createDefaultForm() {
     input.className = "defaultForm";
     firstDiv.appendChild(input);
     // Create select dropdowns and add options.
-    let select1 = document.createElement("select");
-    let option1 = new Option("Textbox", "input", false, false);
-    var option2 = new Option("Checkbox", "checkbox", false, false);
-    var option3 = new Option("Radio", "radio", false, false);
-    select1.addEventListener("click", radioSelected);
-    select1.className = "defaultForm";
-    let select2 = document.createElement("select");
-    var option4 = new Option("Mandatory", "true", false, false);
-    var option5 = new Option("None", "false", false, false);
-    var option6 = new Option("Numeric", "number", false, false);
-    select2.className = "defaultForm";
-    select1.appendChild(option1);
-    select1.appendChild(option2);
-    select1.appendChild(option3);
-    select2.appendChild(option4);
-    select2.appendChild(option5);
-    select2.appendChild(option6);
-    firstDiv.appendChild(select1);
-    firstDiv.appendChild(select2);
+    let selectDrop1 = new Select("Textbox", "input", "Checkbox", "checkbox", "Radio", "radio");
+    selectDrop1.select.addEventListener("click", radioSelected);
+    selectDrop1.addName("defaultForm");
+    selectDrop1.append();
+    let selectDrop2 = new Select("Mandatory", "true", "None", "false", "Number", "number");
+    selectDrop2.addName("defaultForm");
+    selectDrop2.append();
     // Push all created elements to array.
-    arrayOfElements.push(br, text, input, select1, select2);
+    arrayOfElements.push(br, text, input, selectDrop1.select, selectDrop2.select);
     return;
 }
 // Event listener function that creates a select form for number of radio labels.
 function radioSelected(event) {
     if (event.target.value == "radio") {
-        let select1 = document.createElement("select");
-        let option1 = new Option("2", "2", false, false);
-        var option2 = new Option("3", "3", false, false);
-        var option3 = new Option("4", "4", false, false);
-        select1.addEventListener("click", radioLabels);
-        select1.className = "defaultForm";
-        select1.appendChild(option1);
-        select1.appendChild(option2);
-        select1.appendChild(option3);
-        firstDiv.appendChild(select1);
-        arrayOfElements.push(select1);
+        let selectDrop = new Select("2", "2", "3", "3", "4", "4");
+        selectDrop.addName("defaultFrom");
+        selectDrop.append();
+        selectDrop.select.addEventListener("click", radioLabels);
+        arrayOfElements.push(selectDrop.select);
     }
 }
 // Creates a previously selected nubmer of radio labels.
@@ -114,20 +96,13 @@ function radioLabels(event) {
     let num = event.target.value;
     let i;
     for (i = 0; i < num; ++i) {
-        let label = document.createElement("input");
-        let radio = document.createElement("input");
+        let radio = new Inputs("radio", "radio" + i, "radios");
+        let label = new Inputs("text", "label" + i, "defaultForm");
         let br = document.createElement("br");
-        radio.type = "radio";
-        radio.checked = false;
-        radio.className = "radios";
-        radio.id = "radio " + i;
-        label.type = "text";
-        label.className = "defaultForm";
-        label.id = "label " + i;
         firstDiv.appendChild(br);
-        firstDiv.appendChild(radio);
-        firstDiv.appendChild(label);
-        arrayOfElements.push(br, radio, label);
+        radio.append();
+        label.append();
+        arrayOfElements.push(br, radio.elmnt, label.elmnt);
     }
 }
 // Store the copied array of current form into a map
@@ -186,16 +161,13 @@ function getForm(selectedItem) {
         }
         else if (array[i].tagName == "SELECT") {
             let temp4 = document.createElement("input");
-            console.log("uso1");
             if (array[i].value != "radio") {
                 temp4.type = array[i].value;
                 temp4.className = "defaultForm";
                 formReset.appendChild(temp4);
-                console.log("uso2");
             }
             if (array[i + 1].value == "true") {
                 temp4.required = true;
-                console.log("uso3");
             }
             else if (array[i + 1].value == "number") {
                 temp4.setAttribute("type", "number");
@@ -203,7 +175,6 @@ function getForm(selectedItem) {
             }
             else {
                 temp4.required = false;
-                console.log("uso4");
             }
             if (array[i].value == "radio")
                 i += 2;
