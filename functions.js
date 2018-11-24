@@ -185,18 +185,18 @@ function getForm(selectedItem) {
         temp.className = "defaultForm";
       }
       else {
-      var temp = document.createElement("span");
-      temp.className = "labels";
+        var temp = document.createElement("span");
+        temp.className = "labels";
       }
       temp.textContent = array[i].value;
       div.appendChild(temp);
     }
     else if(array[i].tagName == "SELECT") {
-      if(array[i].value != "radio"){
+      if(array[i].value != "radio") {
         var temp = document.createElement("input");
         temp.setAttribute("type",array[i].value);
       }
-      if(array[i+1].value == "true") {
+      else if(array[i+1].value == "true") {
         temp.required = true;
       }
       else if(array[i+1].value == "number") {

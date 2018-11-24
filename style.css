@@ -62,12 +62,35 @@ button:focus {outline:0;}
 }
 
 #existingForm {
-  left: 160px;  
+  left: 160px; 
 }
 
 #saveData {
 	left: 550px;
 	top: 600px;
+}
+
+#loadButton {
+  left: 450px;
+}
+
+#version {
+  position: absolute;
+  left: 365px;
+  top: 110px;
+  width: 60px;
+  height: 20px;
+}
+
+#versionText {
+  position: absolute;
+  top: 115px;
+  left: 300px;
+}
+
+#formularName {
+  position: absolute;
+  top: 115px;
 }
 
 .defaultForm {
@@ -76,6 +99,8 @@ button:focus {outline:0;}
 }
 
 .labels {
+  display: inline-block;
+  width: 80px;
   margin: 10px;
   justify-content: space-around;
 }
