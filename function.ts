@@ -29,7 +29,7 @@ function createDefaultForm() {
   let br: any = document.createElement("br");
   firstDiv.appendChild(br);
   ++elementCount;
-  let text = new Labels("defaultName","Element " + elementCount,"span");
+  let text = new Labels("defaultForm","Element " + elementCount,"span");
   firstDiv.appendChild(text.elmnt);
   let input = new Inputs("text","inp "+elementCount,"defaultForm",false);
   input.append();
@@ -84,7 +84,7 @@ function getForm(selectedItem: string) {
       formReset.appendChild(temp1.elmnt);
     }
     if(array[i].tagName == "INPUT" && array[i].type != "radio") {
-      if(array[i+1].value == "radio"){
+      if(array[i].className == "defaultForm"){
         let temp2 = new Labels("defaultForm",array[i].value,"span");
         formReset.appendChild(temp2.elmnt);
       }
