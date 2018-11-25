@@ -29,9 +29,9 @@ function createDefaultForm() {
   let br: any = document.createElement("br");
   firstDiv.appendChild(br);
   ++elementCount;
-  let text = new Labels("defaultForm","Element " + elementCount,"span");
+  let text = new Labels("defaultForm","Element " + elementCount,"span","el" + elementCount);
   firstDiv.appendChild(text.elmnt);
-  let input = new Inputs("text","inp "+elementCount,"defaultForm",false);
+  let input = new Inputs("text","inp " + elementCount,"defaultForm",false);
   input.append();
   let selectDrop1 = new Select("Textbox","input","Checkbox","checkbox","Radio","radio")
   selectDrop1.select.addEventListener("click",radioSelected);
@@ -66,6 +66,7 @@ function storeForm(userInput: string) {
   return;
 }
 
+var radioLabel: string;
 // Search the map for the array of selected form and convert to form items based on user selection.
 function getForm(selectedItem: string) {
   let field = (<HTMLInputElement>document.getElementById("version")).value;
@@ -84,19 +85,16 @@ function getForm(selectedItem: string) {
       formReset.appendChild(temp1.elmnt);
     }
     if(array[i].tagName == "INPUT" && array[i].type != "radio") {
-      if(array[i].className == "defaultForm"){
-        let temp2 = new Labels("defaultForm",array[i].value,"span");
-        formReset.appendChild(temp2.elmnt);
-      }
-      else {
-        let temp3 = new Labels("labels",array[i].value,"span");
+        let temp3 = new Labels("labels",array[i].value,"span",array[i].id);
         formReset.appendChild(temp3.elmnt);
       }
-    }
     else if(array[i].tagName == "SELECT") {
       let temp4 = new Inputs(array[i].value,"inputs " + i,"defaultForm",false);
       if(array[i].value != "radio") {
         formReset.appendChild(temp4.elmnt);
+      }
+      if(array[i].value == "radio"){
+        radioLabel = array[i-1].id;
       }
       if(array[i+1].value == "true") {
         temp4.elmnt.required = true;
@@ -115,6 +113,7 @@ function getForm(selectedItem: string) {
       formReset.appendChild(temp);
     }
   } 
+  document.getElementById(radioLabel).className = "defaultForm";
   formReset.reportValidity();
   return;
 }
