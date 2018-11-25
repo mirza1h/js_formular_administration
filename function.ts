@@ -62,10 +62,8 @@ function createDefaultForm() {
   let br: any = document.createElement("br");
   firstDiv.appendChild(br);
   ++elementCount;
-  let text: HTMLSpanElement = (<HTMLSpanElement>document.createElement("span"));
-  text.setAttribute("display","inline");
-  text.textContent = "Element " + elementCount;
-  firstDiv.appendChild(text);
+  let text = new Labels("defaultName","Element" + elementCount,"span");
+  firstDiv.appendChild(text.elmnt);
   let input = new Inputs("text","inp"+elementCount,"defaultForm");
   input.append();
   let selectDrop1 = new Select("Textbox","input","Checkbox","checkbox","Radio","radio")
@@ -75,7 +73,7 @@ function createDefaultForm() {
   let selectDrop2 = new Select("Mandatory","true","None","false","Number","number")
   selectDrop2.addName("defaultForm");
   selectDrop2.append();
-  arrayOfElements.push(br,text,input.elmnt,selectDrop1.select,selectDrop2.select);
+  arrayOfElements.push(br,text.elmnt,input.elmnt,selectDrop1.select,selectDrop2.select);
   return;
 }
 
@@ -133,32 +131,23 @@ function storeForm(userInput: string) {
 // Search the map for the array of selected form and
 // convert to form items based on user selection.
 function getForm(selectedItem: string) {
-  // Fetch array with that name.
   let array: htmlElements[] = (<htmlElements[]>mapOfForms.get(selectedItem));
-  let i: number;
   // Reset div so a new form can be displayed.
   formReset.innerHTML = "";
   // Loop through elements and convert them based on input, also add validation.
-  for(i = 0; i < array.length; ++i) {
+  for(var i = 0; i < array.length; ++i) {
     if(array[i].type == "radio") {
-      let temp1: HTMLInputElement = (<HTMLInputElement>document.createElement("input"));
-      temp1.type = "radio";
-      temp1.className = "radios";
-      temp1.checked = false;
-      formReset.appendChild(temp1);
+      let temp1 = new Inputs("radio","radios" + i,"radios");
+      formReset.appendChild(temp1.elmnt);
     }
     if(array[i].tagName == "INPUT" && array[i].type != "radio") {
       if(array[i+1].value == "radio"){
-        let temp2: HTMLParagraphElement = (<HTMLParagraphElement>document.createElement("p"));
-        temp2.className = "defaultForm";
-        temp2.textContent = array[i].value;
-        formReset.appendChild(temp2);
+        let temp2 = new Labels("defaultForm",array[i].value,"p");
+        formReset.appendChild(temp2.elmnt);
       }
       else {
-        let temp3: HTMLSpanElement = (<HTMLSpanElement>document.createElement("span"));
-        temp3.className = "labels";
-        temp3.textContent = array[i].value;
-        formReset.appendChild(temp3);
+        let temp3 = new Labels("labels",array[i].value,"span");
+        formReset.appendChild(temp3.elmnt);
       }
     }
     else if(array[i].tagName == "SELECT") {
@@ -185,7 +174,6 @@ function getForm(selectedItem: string) {
     }
     else if(array[i].tagName == "BR") {
       var temp = document.createElement("br");
-      temp.className = "defaultForm";
       formReset.appendChild(temp);
     }
   }
