@@ -20,7 +20,7 @@ class Data {
     validation(inputs) {
         let empty = 0;
         for (var i = 0; i < inputs.length; ++i) {
-            if (inputs[i].required == true && inputs[i].value == "") {
+            if (inputs[i].required == true && (inputs[i].value == "" || inputs[i].checked == false)) {
                 ++empty;
                 alert("Fill out mandatory fields!");
                 inputs[i].focus();
