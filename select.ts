@@ -14,7 +14,6 @@ class Select {
   addName(styleName: string) {
     this.select.className = styleName;
   }
-  
   append() {
     this.select.appendChild(this.option1);
     this.select.appendChild(this.option2);

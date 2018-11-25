@@ -9,7 +9,6 @@ class Inputs {
     this.elmnt.className = styleName;
     this.elmnt.required = state;
   }
-
   append() {
     firstDiv.appendChild(this.elmnt);
   }

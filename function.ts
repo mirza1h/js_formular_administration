@@ -23,6 +23,7 @@ function searchForm(userInput: string) {
   elementCount = parseInt(lastNumber.substr(8),10);
   return;
 }
+
 var version: number = 0;
 // Creates default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
@@ -76,7 +77,6 @@ function getForm(selectedItem: string) {
     alert("No form under that version!")
     return;
   }
-  // Reset div so a new form can be displayed.
   formReset.innerHTML = "";
   // Loop through elements and convert them based on input, also add validation.
   for(var i = 0; i < array.length; ++i) {

@@ -2,6 +2,7 @@ var formReset: HTMLFormElement = <HTMLFormElement>document.getElementById("valid
 class Data{
   inpObj: HTMLCollectionOf<HTMLInputElement> = formReset.getElementsByTagName("input");
   spanObj: HTMLCollectionOf<HTMLSpanElement> = <HTMLCollectionOf<HTMLSpanElement>>formReset.getElementsByClassName("labels");
+  
   store (dataMap: any){
     let field = (<HTMLInputElement>document.getElementById("version")).value;
     if(this.validation(this.inpObj) == 1) {
@@ -10,10 +11,10 @@ class Data{
           this.inpObj[i].value = "off";
           console.log(this.spanObj[i].textContent,this.inpObj[i].value);
           dataMap.set(this.spanObj[i].textContent,this.inpObj[i].value);
-      }
+        }
     formReset.reset();
     alert("Data submitted under version: " + field);
-  }
+    }
   }
 
     // Check for empty inputs and focus on them.
@@ -31,6 +32,6 @@ class Data{
   }
   else
     return 1;
-}
+  }
 
 }
