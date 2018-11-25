@@ -4,7 +4,7 @@ function searchForm(userInput) {
         return;
     }
     // If form doesn't exists inside map create a new one under that name.
-    let array = mapOfForms.get(userInput);
+    let array = mapOfForms.get(userInput + version);
     if (array == undefined) {
         alert("Form doesn't exist. Create a form: " + userInput);
         document.getElementById("add").style.display = "block";
@@ -23,7 +23,8 @@ function searchForm(userInput) {
     elementCount = parseInt(lastNumber.substr(8), 10);
     return;
 }
-// Creates three default form elements after invalid search, and adds more fields.
+var version = 0;
+// Creates default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
     let br = document.createElement("br");
     firstDiv.appendChild(br);
@@ -44,13 +45,15 @@ function createDefaultForm() {
 }
 // Store the copied array of current form into a map and add a new option to Formulars dropdown.
 function storeForm(userInput) {
+    version = 0;
     elementCount = 0;
     // If form existed before add new elements to it by concating previous and current array.
     let clonedArray;
-    if (mapOfForms.has(userInput) == true) {
-        let existingArray = mapOfForms.get(userInput);
+    if (mapOfForms.has(userInput + version) == true) {
+        let existingArray = mapOfForms.get(userInput + version);
         existingArray = existingArray.concat(arrayOfElements);
         clonedArray = existingArray.slice(0);
+        ++version;
     }
     else {
         var option = new Option(userInput);
@@ -58,13 +61,19 @@ function storeForm(userInput) {
         clonedArray = arrayOfElements.slice(0);
     }
     arrayOfElements = [];
-    mapOfForms.set(userInput, clonedArray);
+    mapOfForms.set(userInput + version, clonedArray);
     firstDiv.innerHTML = "";
     return;
 }
 // Search the map for the array of selected form and convert to form items based on user selection.
 function getForm(selectedItem) {
-    let array = mapOfForms.get(selectedItem);
+    let field = document.getElementById("version").value;
+    let vers = field;
+    let array = mapOfForms.get(selectedItem + vers);
+    if (array == undefined) {
+        alert("No form under that version!");
+        return;
+    }
     // Reset div so a new form can be displayed.
     formReset.innerHTML = "";
     // Loop through elements and convert them based on input, also add validation.
