@@ -7,25 +7,30 @@ var formReset = document.getElementById("valid");
 var dataMap = new Map(); // Map used for submiting data. Keys are labels, and values are user inputs.
 class htmlElements extends HTMLElement {
 }
-// Switch between pages and color tabs.
-function openPage(pageName, elmnt) {
-    // Hide all elements with class="tabcontent" by default.
-    let tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    let i;
-    for (i = 0; i < tabcontent.length; ++i) {
-        tabcontent[i].style.display = "none";
+class Page {
+    constructor() {
+        this.tabcontent = document.getElementsByClassName("tabcontent");
+        this.tablinks = document.getElementsByClassName("tablink");
+        this.color = "white";
+        this.tabcontent[0].style.display = "none";
+        this.tabcontent[1].style.display = "none";
+        this.tablinks[0].style.backgroundColor = "";
+        this.tablinks[1].style.backgroundColor = "";
     }
-    // Remove the background color of all buttons.
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; ++i) {
-        tablinks[i].style.backgroundColor = "";
+    colorTab(elmnt) {
+        elmnt.style.backgroundColor = this.color;
     }
     // Show the specific tab content.
-    document.getElementById(pageName).style.display = "block";
-    // Add the specific color to the button used to open the tab content.
-    elmnt.style.backgroundColor = "white";
-    return;
+    switchPage(page) {
+        page.style.display = "block";
+    }
+}
+// Switch between pages and color tabs.
+function openPage(pageName, elmnt) {
+    let page = document.getElementById(pageName);
+    let currentPage = new Page();
+    currentPage.switchPage(page);
+    currentPage.colorTab(elmnt);
 }
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();

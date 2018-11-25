@@ -10,25 +10,30 @@ class htmlElements extends HTMLElement {
   type?: any;
 }
 
+class Page {
+  tabcontent: HTMLCollectionOf<HTMLDivElement> = (<HTMLCollectionOf<HTMLDivElement>>document.getElementsByClassName("tabcontent"));
+  tablinks: HTMLCollectionOf<HTMLDivElement> = (<HTMLCollectionOf<HTMLDivElement>>document.getElementsByClassName("tablink"));
+  color: string = "white";
+  constructor() {
+    this.tabcontent[0].style.display = "none";
+    this.tabcontent[1].style.display = "none";
+    this.tablinks[0].style.backgroundColor = "";
+    this.tablinks[1].style.backgroundColor = "";
+  }  
+  colorTab(elmnt: HTMLDivElement) {
+    elmnt.style.backgroundColor = this.color;
+  }
+    // Show the specific tab content.
+  switchPage(page: HTMLDivElement) {
+    page.style.display = "block";
+  }
+}
 // Switch between pages and color tabs.
-function openPage(pageName: string, elmnt: HTMLElement) {
-  // Hide all elements with class="tabcontent" by default.
-  let tabcontent: HTMLCollectionOf<HTMLDivElement>, tablinks: HTMLCollectionOf<HTMLButtonElement>;
-  tabcontent = (<HTMLCollectionOf<HTMLDivElement>>document.getElementsByClassName("tabcontent"));
-  let i: number;
-  for (i = 0; i < tabcontent.length; ++i) {
-    tabcontent[i].style.display = "none";
-  }
-  // Remove the background color of all buttons.
-  tablinks = (<HTMLCollectionOf<HTMLButtonElement>>document.getElementsByClassName("tablink"));
-  for (i = 0; i < tablinks.length; ++i) {
-    tablinks[i].style.backgroundColor = "";
-  }
-  // Show the specific tab content.
-  document.getElementById(pageName).style.display = "block";
-  // Add the specific color to the button used to open the tab content.
-  elmnt.style.backgroundColor = "white";
-  return;
+function openPage(pageName: string, elmnt: HTMLDivElement) {
+  let page = <HTMLDivElement>document.getElementById(pageName);
+  let currentPage = new Page();
+  currentPage.switchPage(page);
+  currentPage.colorTab(elmnt);
 }
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
