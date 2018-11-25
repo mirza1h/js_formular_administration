@@ -1,6 +1,6 @@
 var elementCount: number = 0;
 var arrayOfElements: htmlElements[] = []; // Array used for temporary storage of every form.
-let mapOfForms: Map<string,Array<HTMLElement>>= new Map<string,Array<HTMLElement>>(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
+var mapOfForms: Map<string,htmlElements[]>= new Map<string,Array<HTMLElement>>(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
 var dropdown: HTMLSelectElement = <HTMLSelectElement> document.getElementById("existingForm");
 var firstDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("return");
 var formReset: HTMLFormElement = <HTMLFormElement>document.getElementById("valid");
@@ -73,6 +73,7 @@ function createDefaultForm() {
   text.textContent = "Element " + elementCount;
   firstDiv.appendChild(text);
   let input = new Inputs("text","inp"+elementCount,"defaultForm");
+  input.append();
   let selectDrop1 = new Select("Textbox","input","Checkbox","checkbox","Radio","radio")
   selectDrop1.select.addEventListener("click",radioSelected);
   selectDrop1.addName("defaultForm");
@@ -116,16 +117,17 @@ function radioLabels(event) {
 function storeForm(userInput: string) {
   elementCount = 0;
   // If form existed before add new elements to it by concating previous and current array.
+  let clonedArray: htmlElements[]
   if(mapOfForms.has(userInput) == true) {
     let existingArray: htmlElements[] = mapOfForms.get(userInput);
     existingArray = existingArray.concat(arrayOfElements);
-    let clonedArray: htmlElements[] = existingArray.slice(0);
+    clonedArray = existingArray.slice(0);
   }
   // A new form was just created so add the option with that name to dropdown.
   else {
     var option = new Option(userInput);
     dropdown.appendChild(option);
-    var clonedArray: htmlElements[] = arrayOfElements.slice(0);
+    clonedArray = arrayOfElements.slice(0);
   }
   // Reset array so a new form can be added and store a copy of form in a map.
   arrayOfElements = [];

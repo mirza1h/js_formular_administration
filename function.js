@@ -1,9 +1,12 @@
 var elementCount = 0;
 var arrayOfElements = []; // Array used for temporary storage of every form.
-let mapOfForms = new Map(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
+var mapOfForms = new Map(); // Map used for storing forms. Keys are search inputs and arrays of form elements are values.
 var dropdown = document.getElementById("existingForm");
 var firstDiv = document.getElementById("return");
 var formReset = document.getElementById("valid");
+var dataMap = new Map(); // Map used for submiting data. Keys are labels, and values are user inputs.
+class htmlElements extends HTMLElement {
+}
 // Switch between pages and color tabs.
 function openPage(pageName, elmnt) {
     // Hide all elements with class="tabcontent" by default.
@@ -55,21 +58,15 @@ function searchForm(userInput) {
 }
 // Creates three default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
-    // Add a new line.
     let br = document.createElement("br");
     firstDiv.appendChild(br);
     ++elementCount;
-    // Create element labels.
     let text = document.createElement("span");
     text.setAttribute("display", "inline");
     text.textContent = "Element " + elementCount;
     firstDiv.appendChild(text);
-    // Create input fields.
-    let input = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.className = "defaultForm";
-    firstDiv.appendChild(input);
-    // Create select dropdowns and add options.
+    let input = new Inputs("text", "inp" + elementCount, "defaultForm");
+    input.append();
     let selectDrop1 = new Select("Textbox", "input", "Checkbox", "checkbox", "Radio", "radio");
     selectDrop1.select.addEventListener("click", radioSelected);
     selectDrop1.addName("defaultForm");
@@ -77,8 +74,7 @@ function createDefaultForm() {
     let selectDrop2 = new Select("Mandatory", "true", "None", "false", "Number", "number");
     selectDrop2.addName("defaultForm");
     selectDrop2.append();
-    // Push all created elements to array.
-    arrayOfElements.push(br, text, input, selectDrop1.select, selectDrop2.select);
+    arrayOfElements.push(br, text, input.elmnt, selectDrop1.select, selectDrop2.select);
     return;
 }
 // Event listener function that creates a select form for number of radio labels.
@@ -110,16 +106,17 @@ function radioLabels(event) {
 function storeForm(userInput) {
     elementCount = 0;
     // If form existed before add new elements to it by concating previous and current array.
+    let clonedArray;
     if (mapOfForms.has(userInput) == true) {
         let existingArray = mapOfForms.get(userInput);
         existingArray = existingArray.concat(arrayOfElements);
-        let clonedArray = existingArray.slice(0);
+        clonedArray = existingArray.slice(0);
     }
     // A new form was just created so add the option with that name to dropdown.
     else {
         var option = new Option(userInput);
         dropdown.appendChild(option);
-        var clonedArray = arrayOfElements.slice(0);
+        clonedArray = arrayOfElements.slice(0);
     }
     // Reset array so a new form can be added and store a copy of form in a map.
     arrayOfElements = [];
@@ -127,17 +124,16 @@ function storeForm(userInput) {
     firstDiv.innerHTML = "";
     return;
 }
-class htmlElements extends HTMLElement {
-}
 // Search the map for the array of selected form and
 // convert to form items based on user selection.
 function getForm(selectedItem) {
     // Fetch array with that name.
     let array = mapOfForms.get(selectedItem);
+    let i;
     // Reset div so a new form can be displayed.
     formReset.innerHTML = "";
     // Loop through elements and convert them based on input, also add validation.
-    for (var i = 0; i < array.length; ++i) {
+    for (i = 0; i < array.length; ++i) {
         if (array[i].type == "radio") {
             let temp1 = document.createElement("input");
             temp1.type = "radio";
@@ -191,7 +187,6 @@ function getForm(selectedItem) {
     formReset.reportValidity();
     return;
 }
-var dataMap = new Map(); // Map used for submiting data. Keys are labels, and values are user inputs.
 // Store the user input into map and reset fields.
 function submitForm() {
     let currentData = new Data();
