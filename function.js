@@ -1,30 +1,3 @@
-class Page {
-    constructor() {
-        this.tabcontent = document.getElementsByClassName("tabcontent");
-        this.tablinks = document.getElementsByClassName("tablink");
-        this.color = "white";
-        this.tabcontent[0].style.display = "none";
-        this.tabcontent[1].style.display = "none";
-        this.tablinks[0].style.backgroundColor = "";
-        this.tablinks[1].style.backgroundColor = "";
-    }
-    colorTab(elmnt) {
-        elmnt.style.backgroundColor = this.color;
-    }
-    // Show the specific tab content.
-    switchPage(page) {
-        page.style.display = "block";
-    }
-}
-// Switch between pages and color tabs.
-function openPage(pageName, elmnt) {
-    let page = document.getElementById(pageName);
-    let currentPage = new Page();
-    currentPage.switchPage(page);
-    currentPage.colorTab(elmnt);
-}
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
 function searchForm(userInput) {
     // If search button is clicked without any input display warning.
     if (userInput == "") {
@@ -41,9 +14,8 @@ function searchForm(userInput) {
     }
     // Reset page, so a new form can be displayed.
     firstDiv.innerHTML = "";
-    let i;
     let lastNumber;
-    for (i = 0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
         firstDiv.appendChild(array[i]);
         if (array[i].tagName == "SPAN")
             lastNumber = array[i].textContent;
@@ -59,7 +31,7 @@ function createDefaultForm() {
     ++elementCount;
     let text = new Labels("defaultName", "Element" + elementCount, "span");
     firstDiv.appendChild(text.elmnt);
-    let input = new Inputs("text", "inp" + elementCount, "defaultForm");
+    let input = new Inputs("text", "inp" + elementCount, "defaultForm", false);
     input.append();
     let selectDrop1 = new Select("Textbox", "input", "Checkbox", "checkbox", "Radio", "radio");
     selectDrop1.select.addEventListener("click", radioSelected);
@@ -84,10 +56,9 @@ function radioSelected(event) {
 // Creates a previously selected nubmer of radio labels.
 function radioLabels(event) {
     let num = event.target.value;
-    let i;
-    for (i = 0; i < num; ++i) {
-        let radio = new Inputs("radio", "radio" + i, "radios");
-        let label = new Inputs("text", "label" + i, "defaultForm");
+    for (var i = 0; i < num; ++i) {
+        let radio = new Inputs("radio", "radio" + i, "radios", false);
+        let label = new Inputs("text", "label" + i, "defaultForm", false);
         let br = document.createElement("br");
         firstDiv.appendChild(br);
         radio.append();
@@ -127,7 +98,7 @@ function getForm(selectedItem) {
     // Loop through elements and convert them based on input, also add validation.
     for (var i = 0; i < array.length; ++i) {
         if (array[i].type == "radio") {
-            let temp1 = new Inputs("radio", "radios" + i, "radios");
+            let temp1 = new Inputs("radio", "radios" + i, "radios", false);
             formReset.appendChild(temp1.elmnt);
         }
         if (array[i].tagName == "INPUT" && array[i].type != "radio") {
@@ -141,21 +112,16 @@ function getForm(selectedItem) {
             }
         }
         else if (array[i].tagName == "SELECT") {
-            let temp4 = document.createElement("input");
+            let temp4 = new Inputs(array[i].value, "inputs" + i, "defaultForm", false);
             if (array[i].value != "radio") {
-                temp4.type = array[i].value;
-                temp4.className = "defaultForm";
-                formReset.appendChild(temp4);
+                formReset.appendChild(temp4.elmnt);
             }
             if (array[i + 1].value == "true") {
-                temp4.required = true;
+                temp4.elmnt.required = true;
             }
             else if (array[i + 1].value == "number") {
-                temp4.setAttribute("type", "number");
-                temp4.required = true;
-            }
-            else {
-                temp4.required = false;
+                temp4.elmnt.type = "number";
+                temp4.elmnt.required = true;
             }
             if (array[i].value == "radio")
                 i += 2;
@@ -167,7 +133,6 @@ function getForm(selectedItem) {
             formReset.appendChild(temp);
         }
     }
-    // Display validation messages.
     formReset.reportValidity();
     return;
 }
