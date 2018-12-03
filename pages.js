@@ -11,7 +11,6 @@ class Page {
     colorTab(elmnt) {
         elmnt.style.backgroundColor = this.color;
     }
-    // Show the specific tab content.
     switchPage(page) {
         page.style.display = "block";
     }

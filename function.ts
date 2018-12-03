@@ -34,11 +34,11 @@ function createDefaultForm() {
   firstDiv.appendChild(text.elmnt);
   let input = new Inputs("text","inp " + elementCount,"defaultForm",false);
   input.append();
-  let selectDrop1 = new Select("Textbox","input","Checkbox","checkbox","Radio","radio")
-  selectDrop1.select.addEventListener("click",radioSelected);
+  let selectDrop1 = new Select("Textbox","input","Checkbox","checkbox","Radio","radio","select"+elementCount)
+  selectDrop1.select.addEventListener("change",radioSelected);
   selectDrop1.addName("defaultForm");
   selectDrop1.append();
-  let selectDrop2 = new Select("Mandatory","true","None","false","Number","number")
+  let selectDrop2 = new Select("Mandatory","true","None","false","Number","number","select"+elementCount)
   selectDrop2.addName("defaultForm");
   selectDrop2.append();
   arrayOfElements.push(br,text.elmnt,input.elmnt,selectDrop1.select,selectDrop2.select);
@@ -100,8 +100,11 @@ function getForm(selectedItem: string) {
         temp4.elmnt.required = true;
       }
       else if(array[i+1].value == "number") {
-        temp4.elmnt.type = "number";
-        temp4.elmnt.required = true;
+        if(array[i].type == "checkbox")
+          temp4.elmnt.type = "number";
+        if(array[i+1].value != "false")
+          temp4.elmnt.required = true;
+        temp4.elmnt.required = false;
       }
       if(array[i].value == "radio")
         i+=2;
@@ -113,7 +116,8 @@ function getForm(selectedItem: string) {
       formReset.appendChild(temp);
     }
   } 
-  document.getElementById(radioLabel).className = "defaultForm";
+  if(radioAdded == true)
+    document.getElementById(radioLabel).className = "defaultForm";
   formReset.reportValidity();
   return;
 }
