@@ -34,10 +34,9 @@ function radioSelected(event) {
     event.target.oldType = "radio";
     let selectDrop = new Select("2","2","3","3","4","4","rselect"+id);
     selectDrop.addName("defaultFrom");
-    // selectDrop.append();
+    selectDrop.append();
     selectDrop.select.addEventListener("click",radioLabels);
     arrayOfElements.push(selectDrop.select);
-    insertAfter(selectDrop.select,nextEl);
     radioAdded = true;
   }
   else if(event.target.oldType == "radio") {
@@ -50,14 +49,13 @@ function radioSelected(event) {
       if(edit == true) {
         let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
         let arrayOfElements: any = mapOfForms.get(name);
-      }
-      var index = arrayOfElements.findIndex(function(o){
+        var index = arrayOfElements.findIndex(function(o){
         return o.id === "rselect"+id;})
-      if (index !== -1) 
-        arrayOfElements.splice(index,1);
-    radioAdded = false;
-      
-  }
+        if (index !== -1) 
+          arrayOfElements.splice(index,1);
+        radioAdded = false;
+      }
+    }
 }
 
 var called: boolean = false;
@@ -83,12 +81,9 @@ function makeElements(num: number,el: any) {
     let label = new Inputs("text","label"+id+i,"defaultForm",false);
     let br: HTMLBRElement = (<HTMLBRElement>document.createElement("br"));
     br.id = "br"+id+i;
-    // firstDiv.appendChild(br);
-    // radio.append();
-    // label.append();
-    insertAfter(br,el);
-    insertAfter(radio.elmnt,br);
-    insertAfter(label.elmnt,radio.elmnt);
+    firstDiv.appendChild(br);
+    radio.append();
+    label.append();
     arrayOfElements.push(br,radio.elmnt,label.elmnt);
   }
 }
@@ -102,14 +97,14 @@ function elementRemoval(num: number,id: string) {
     let bTemp = document.getElementById("br"+id+i);
     bTemp.parentNode.removeChild(bTemp);
   }
-  if(edit == true){
+  if(edit == true) {
     let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
     let arrayOfElements: any = mapOfForms.get(name);
-  }
-  var index = arrayOfElements.findIndex(function(o){
+    var index = arrayOfElements.findIndex(function(o){
     return o.id === "br"+id+0;})
-  if (index !== -1) 
-    arrayOfElements.splice(index, num*3);
+    if (index !== -1) 
+      arrayOfElements.splice(index, num*3);
+  }
 }
 
 function insertAfter(newNode, referenceNode) {
