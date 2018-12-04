@@ -40,16 +40,14 @@ function radioSelected(event) {
         temp.parentNode.removeChild(temp);
         // if(called == true)
         elementRemoval(num, temp.id);
-        if (edit == true) {
-            let name = document.getElementById("userInput").value;
-            let arrayOfElements = mapOfForms.get(name);
-            var index = arrayOfElements.findIndex(function (o) {
-                return o.id === "rselect" + id;
-            });
-            if (index !== -1)
-                arrayOfElements.splice(index, 1);
-            radioAdded = false;
-        }
+        // let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
+        // let arrayOfElements: any = mapOfForms.get(name);
+        var index = arrayOfElements.findIndex(function (o) {
+            return o.id === "rselect" + id;
+        });
+        if (index !== -1)
+            arrayOfElements.splice(index, 1);
+        radioAdded = false;
     }
 }
 var called = false;
@@ -68,6 +66,7 @@ function radioLabels(event) {
     el.oldValue = el.value;
 }
 function makeElements(num, el) {
+    //let radioDiv: HTMLDivElement = document.createElement("div");
     let id = el.id;
     for (var i = 0; i < num; ++i) {
         let radio = new Inputs("radio", "radio" + id + i, "radios", false);
@@ -89,15 +88,13 @@ function elementRemoval(num, id) {
         let bTemp = document.getElementById("br" + id + i);
         bTemp.parentNode.removeChild(bTemp);
     }
-    if (edit == true) {
-        let name = document.getElementById("userInput").value;
-        let arrayOfElements = mapOfForms.get(name);
-        var index = arrayOfElements.findIndex(function (o) {
-            return o.id === "br" + id + 0;
-        });
-        if (index !== -1)
-            arrayOfElements.splice(index, num * 3);
-    }
+    // let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
+    // let arrayOfElements: any = mapOfForms.get(name);
+    var index = arrayOfElements.findIndex(function (o) {
+        return o.id === "br" + id + 0;
+    });
+    if (index !== -1)
+        arrayOfElements.splice(index, num * 3);
 }
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);

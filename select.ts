@@ -46,15 +46,13 @@ function radioSelected(event) {
     temp.parentNode.removeChild(temp);
     // if(called == true)
       elementRemoval(num,temp.id);
-      if(edit == true) {
-        let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
-        let arrayOfElements: any = mapOfForms.get(name);
+        // let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
+        // let arrayOfElements: any = mapOfForms.get(name);
         var index = arrayOfElements.findIndex(function(o){
         return o.id === "rselect"+id;})
         if (index !== -1) 
           arrayOfElements.splice(index,1);
         radioAdded = false;
-      }
     }
 }
 
@@ -75,6 +73,7 @@ function radioLabels(event) {
 }
 
 function makeElements(num: number,el: any) {
+  //let radioDiv: HTMLDivElement = document.createElement("div");
   let id: string = el.id;
   for(var i = 0; i < num; ++i) {
     let radio = new Inputs("radio","radio"+id+i,"radios",false);
@@ -97,14 +96,12 @@ function elementRemoval(num: number,id: string) {
     let bTemp = document.getElementById("br"+id+i);
     bTemp.parentNode.removeChild(bTemp);
   }
-  if(edit == true) {
-    let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
-    let arrayOfElements: any = mapOfForms.get(name);
+    // let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
+    // let arrayOfElements: any = mapOfForms.get(name);
     var index = arrayOfElements.findIndex(function(o){
     return o.id === "br"+id+0;})
     if (index !== -1) 
       arrayOfElements.splice(index, num*3);
-  }
 }
 
 function insertAfter(newNode, referenceNode) {
