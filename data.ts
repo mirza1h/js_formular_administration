@@ -10,7 +10,7 @@ class Data {
   store (dataMap: any,load: boolean) {
     let vers: string = versionField.value;
     let formName: string = (<HTMLInputElement>document.getElementById("existingForm")).value;
-    if(load == false){
+    if(load == false) {
       let arrayOfInputs: string[] = [];
       if(this.validation(this.inpObj) == 1) {
         for(var i = 0; i < this.spanObj.length; ++i) {

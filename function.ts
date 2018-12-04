@@ -38,13 +38,13 @@ function createDefaultForm() {
   selectDrop1.select.addEventListener("change",radioSelected);
   selectDrop1.addName("defaultForm");
   selectDrop1.append();
-  let selectDrop2 = new Select("Mandatory","true","None","false","Number","number","select"+elementCount)
+  let selectDrop2 = new Select("Mandatory","true","None","false","Number","number","selectv"+elementCount)
   selectDrop2.addName("defaultForm");
   selectDrop2.append();
   arrayOfElements.push(br,text.elmnt,input.elmnt,selectDrop1.select,selectDrop2.select);
   return;
 }
-
+var edit: boolean;
 // Store the copied array of current form into a map and add a new option to Formulars dropdown.
 function storeForm(userInput: string) {
   elementCount = 0;
@@ -62,6 +62,7 @@ function storeForm(userInput: string) {
   arrayOfElements = [];
   mapOfForms.set(userInput, clonedArray);
   firstDiv.innerHTML = "";
+  edit = true;
   return;
 }
 
@@ -77,7 +78,7 @@ function getForm(selectedItem: string) {
   // Loop through elements and convert them based on input, also add validation.
   for(var i = 0; i < array.length; ++i) {
     if(array[i].type == "radio") {
-      let temp1 = new Inputs("radio","radios " + i,"radios",false);
+      let temp1 = new Inputs("radio","radios" + i,"radios",false);
       formReset.appendChild(temp1.elmnt);
     }
     if(array[i].tagName == "INPUT" && array[i].type != "radio") {
@@ -85,7 +86,7 @@ function getForm(selectedItem: string) {
         formReset.appendChild(temp3.elmnt);
       }
     else if(array[i].tagName == "SELECT") {
-      let temp4 = new Inputs(array[i].value,"inputs " + i,"defaultForm",false);
+      let temp4 = new Inputs(array[i].value,"inputs" + i,"defaultForm",false);
       if(array[i].value != "radio") {
         formReset.appendChild(temp4.elmnt);
       }
