@@ -28,8 +28,9 @@ function radioSelected(event) {
         event.target.oldType = "radio";
         let selectDrop = new Select("2", "2", "3", "3", "4", "4", "rselect" + id);
         selectDrop.addName("defaultFrom");
-        selectDrop.append();
+        //selectDrop.append();
         selectDrop.select.addEventListener("click", radioLabels);
+        insertAfter(selectDrop.select, nextEl);
         arrayOfElements.push(selectDrop.select);
         radioAdded = true;
     }
@@ -40,9 +41,16 @@ function radioSelected(event) {
         temp.parentNode.removeChild(temp);
         // if(called == true)
         elementRemoval(num, temp.id);
-        // let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
-        // let arrayOfElements: any = mapOfForms.get(name);
-        var index = arrayOfElements.findIndex(function (o) {
+        if (edit == true) {
+            let name = document.getElementById("userInput").value;
+            let arrayOfElements = mapOfForms.get(name);
+            let index = arrayOfElements.findIndex(function (o) {
+                return o.id === "rselect" + id;
+            });
+            if (index !== -1)
+                arrayOfElements.splice(index, 1);
+        }
+        let index = arrayOfElements.findIndex(function (o) {
             return o.id === "rselect" + id;
         });
         if (index !== -1)
@@ -53,6 +61,7 @@ function radioSelected(event) {
 var called = false;
 // Creates a previously selected number of radio labels.
 function radioLabels(event) {
+    let radioDiv = document.createElement("div");
     let el = event.target;
     called = true;
     if (el.oldValue == 0) {
@@ -66,7 +75,6 @@ function radioLabels(event) {
     el.oldValue = el.value;
 }
 function makeElements(num, el) {
-    //let radioDiv: HTMLDivElement = document.createElement("div");
     let id = el.id;
     for (var i = 0; i < num; ++i) {
         let radio = new Inputs("radio", "radio" + id + i, "radios", false);
