@@ -45,16 +45,17 @@ function radioSelected(event) {
 var called = false;
 // Creates a previously selected number of radio labels.
 function radioLabels(event) {
+    let el = event.target;
     called = true;
-    if (event.target.oldValue == 0) {
-        let num = event.target.value;
-        makeElements(num, event.target.id);
+    if (el.oldValue == 0) {
+        let num = el.value;
+        makeElements(num, el.id);
     }
-    else if (event.target.oldValue != 0 && event.target.oldValue != event.target.value) {
-        elementRemoval(event.target.oldValue, event.target.id);
-        makeElements(event.target.value, event.target.id);
+    else if (el.oldValue != 0 && el.oldValue != el.value) {
+        elementRemoval(el.oldValue, el.id);
+        makeElements(el.value, el.id);
     }
-    event.target.oldValue = event.target.value;
+    el.oldValue = el.value;
 }
 function makeElements(num, id) {
     for (var i = 0; i < num; ++i) {

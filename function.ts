@@ -4,7 +4,7 @@ function searchForm(userInput: string) {
     return;
   }
   // If form doesn't exists inside map create a new one under that name.
-  let array: htmlElements[] = mapOfForms.get(userInput+version);
+  let array: htmlElements[] = mapOfForms.get(userInput);
   if (array == undefined) {
     alert("Form doesn't exist. Create a form: " + userInput);
     document.getElementById("add").style.display = "block";
@@ -47,22 +47,20 @@ function createDefaultForm() {
 
 // Store the copied array of current form into a map and add a new option to Formulars dropdown.
 function storeForm(userInput: string) {
-  version = 0;
   elementCount = 0;
   // If form existed before add new elements to it by concating previous and current array.
   let clonedArray: htmlElements[]
-  if(mapOfForms.has(userInput+version) == true) {
-    let existingArray: htmlElements[] = mapOfForms.get(userInput+version);
+  if(mapOfForms.has(userInput) == true) {
+    let existingArray: htmlElements[] = mapOfForms.get(userInput);
     existingArray = existingArray.concat(arrayOfElements);
     clonedArray = existingArray.slice(0);
-    ++version;
   }else {
     var option = new Option(userInput);
     dropdown.appendChild(option);
     clonedArray = arrayOfElements.slice(0);
   }
   arrayOfElements = [];
-  mapOfForms.set(userInput + version,clonedArray);
+  mapOfForms.set(userInput, clonedArray);
   firstDiv.innerHTML = "";
   return;
 }
@@ -70,11 +68,9 @@ function storeForm(userInput: string) {
 var radioLabel: string;
 // Search the map for the array of selected form and convert to form items based on user selection.
 function getForm(selectedItem: string) {
-  let field = (<HTMLInputElement>document.getElementById("version")).value;
-  let vers: string = field;
-  let array: htmlElements[] = (<htmlElements[]>mapOfForms.get(selectedItem+vers));
+  let array: htmlElements[] = (<htmlElements[]>mapOfForms.get(selectedItem));
   if(array == undefined){
-    alert("No form under that version!")
+    alert("No form under that name!")
     return;
   }
   formReset.innerHTML = "";
@@ -122,8 +118,8 @@ function getForm(selectedItem: string) {
   return;
 }
 
-// Store the user input into map and reset fields.
-function submitForm() {
+// Store and load data mechanism.
+function submitForm(load: boolean) {
   let currentData = new Data();
-  currentData.store(dataMap);
+  currentData.store(dataMap,load);
 }

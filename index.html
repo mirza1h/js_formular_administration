@@ -20,14 +20,14 @@
 	  <div id="Formular" class="tabcontent">
       <span id="formularName">Formular name: </span> 
       <form>
-        <select name="existingForm" id="existingForm" class="buttons">
+        <select name="existingForm" id="existingForm" class="buttons" onclick="getForm(this.value)">
           <option value=" " disabled selected hidden>Choose a form:</option>
         </select>
       </form>
       <span id="versionText">Version</span>
-		  <input type="number" id="version" required value=0></input>
-      <button id="loadButton" class="buttons" onclick="getForm(document.getElementById('existingForm').value)">Load</button>
-      <button type="submit" id="saveData" class="buttons" onclick="submitForm()">Submit</button>
+		  <input type="number" id="version" required value=0 min=0></input>
+      <button id="loadButton" class="buttons" onclick="submitForm(true)">Load</button>
+      <button type="submit" id="saveData" class="buttons" onclick="submitForm(false)">Submit</button>
       <div id="Forms">
         <form id="valid"></form>
       </div>

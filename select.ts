@@ -8,7 +8,7 @@ class Select {
   oldValue: number = 0;
   oldType: string = "";
   
-  constructor(opt1: string,opt1v: string,opt2: string,opt2v: string,opt3: string, opt3v: string, name: string){
+  constructor(opt1: string,opt1v: string,opt2: string,opt2v: string,opt3: string, opt3v: string, name: string) {
     this.select.id = name;
     this.option1 = new Option(opt1,opt1v,false,false);
     this.option2 = new Option(opt2,opt2v,false,false);
@@ -24,9 +24,10 @@ class Select {
     firstDiv.appendChild(this.select);
   }
 }
+
 var radioAdded: boolean = false;
 // Event listener function that creates a select form for number of radio labels.
-function radioSelected(event){
+function radioSelected(event) {
   let id: string = event.target.id.substr(6);
   if(event.target.value == "radio") {
     event.target.oldType = "radio";
@@ -47,19 +48,21 @@ function radioSelected(event){
     called = false;
   }
 }
+
 var called: boolean = false;
 // Creates a previously selected number of radio labels.
 function radioLabels(event) {
+  let el: any = event.target;
   called = true;
-  if(event.target.oldValue == 0) {
-    let num: number = event.target.value;
-    makeElements(num,event.target.id);
+  if(el.oldValue == 0) {
+    let num: number = el.value;
+    makeElements(num,el.id);
   }
-  else if(event.target.oldValue != 0 && event.target.oldValue != event.target.value) {
-    elementRemoval(event.target.oldValue,event.target.id);
-    makeElements(event.target.value,event.target.id);
+  else if(el.oldValue != 0 && el.oldValue != el.value) {
+    elementRemoval(el.oldValue, el.id);
+    makeElements(el.value, el.id);
   }
-  event.target.oldValue = event.target.value;
+  el.oldValue = el.value;
 }
 
 function makeElements(num: number,id: string) {

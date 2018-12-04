@@ -1,37 +1,60 @@
 var formReset: HTMLFormElement = <HTMLFormElement>document.getElementById("valid");
-class Data{
+var inputMap: Map<string,string[]> = new Map<string,string[]>();
+var versionField: HTMLInputElement = (<HTMLInputElement>document.getElementById("version"));
+
+class Data {
   inpObj: HTMLCollectionOf<HTMLInputElement> = formReset.getElementsByTagName("input");
   spanObj: HTMLCollectionOf<HTMLSpanElement> = <HTMLCollectionOf<HTMLSpanElement>>formReset.getElementsByClassName("labels");
   
-  store (dataMap: any){
-    let field = (<HTMLInputElement>document.getElementById("version")).value;
-    if(this.validation(this.inpObj) == 1) {
-      for(var i = 0; i < this.spanObj.length; ++i) {
-        if(this.inpObj[i].value == "on" && this.inpObj[i].checked == false)
-          this.inpObj[i].value = "off";
-          console.log(this.spanObj[i].textContent,this.inpObj[i].value);
-          dataMap.set(this.spanObj[i].textContent,this.inpObj[i].value);
-        }
-    formReset.reset();
-    alert("Data submitted under version: " + field);
+  // Store form fields and inputs in a map as data, also load inputs under chosen version to current form.
+  store (dataMap: any,load: boolean) {
+    let vers: string = versionField.value;
+    let formName: string = (<HTMLInputElement>document.getElementById("existingForm")).value;
+    if(load == false){
+      let arrayOfInputs: string[] = [];
+      if(this.validation(this.inpObj) == 1) {
+        for(var i = 0; i < this.spanObj.length; ++i) {
+          if(this.inpObj[i].value == "on" && this.inpObj[i].checked == false)
+              this.inpObj[i].value = "off";
+            console.log(this.spanObj[i].textContent,this.inpObj[i].value);
+            dataMap.set(this.spanObj[i].textContent,this.inpObj[i].value);
+            arrayOfInputs.push(this.inpObj[i].value);
+          }
+        formReset.reset();
+        alert("Data submitted under version: " + vers);
+      }
+      inputMap.set(formName+vers,arrayOfInputs);
     }
-  }
+    else if(load == true) {
+      let array: any = inputMap.get(formName+vers);
+      if(array == undefined) {
+        alert("Version doesn't exist!");
+        return;
+      }
+      for(var i = 0; i< array.length;i++){
+        if(array[i] == "on")
+          this.inpObj[i].checked = true;
+        this.inpObj[i].value = array[i];
+      }
+      alert(formName + " version " + vers + " loaded!");
+      versionField.value = "0";
+    } 
+}
 
     // Check for empty inputs and focus on them.
-  validation(inputs: HTMLCollectionOf<HTMLInputElement>){
-  let empty: number = 0;
-  for(var i = 0;i < inputs.length; ++i) {
-    if(inputs[i].required == true && (inputs[i].value == "" || inputs[i].value == "off")) {
-      ++empty;
-      inputs[i].focus();
+  validation(inputs: HTMLCollectionOf<HTMLInputElement>) {
+    let empty: number = 0;
+    for(var i = 0;i < inputs.length; ++i) {
+      if(inputs[i].required == true && (inputs[i].value == "" || inputs[i].value == "off")) {
+        ++empty;
+        inputs[i].focus();
+      }
     }
-  }
-  if(empty != 0){
-    alert("Fill out mandatory fields!");
-    return 0;
-  }
-  else
-    return 1;
-  }
-
+    if(empty != 0) {
+      alert("Fill out mandatory fields!");
+      return 0;
+    }
+    else
+      return 1;
+    }
 }
