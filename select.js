@@ -31,21 +31,21 @@ function radioSelected(event) {
         selectDrop.select.addEventListener("click", radioLabels);
         insertAfter(selectDrop.select, nextEl);
         // Needs to be inserted into array at specific index, in case of nonlinear option changing.
+        let idx;
+        let array = arrayOfElements;
         if (edit == true) {
             let name = document.getElementById("userInput").value;
-            let arrayOfElements = mapOfForms.get(name);
-            let idx = arrayOfElements.findIndex(function (o) {
+            array = mapOfForms.get(name);
+            idx = array.findIndex(function (o) {
                 return o.id === "selectv" + id;
             });
-            arrayOfElements.splice(idx + 1, 0, selectDrop.select);
         }
         else if (edit == false) {
-            let idx = arrayOfElements.findIndex(function (o) {
+            idx = array.findIndex(function (o) {
                 return o.id === "selectv" + id;
             });
-            console.log(id, idx);
-            arrayOfElements.splice(idx + 1, 0, selectDrop.select);
         }
+        array.splice(idx + 1, 0, selectDrop.select);
         radioAdded = true;
     } // If we changed option from radio to other option, remove dynamically added elements.
     else if (oldType == "radio") {
@@ -58,17 +58,13 @@ function radioSelected(event) {
         if (edit == true) {
             let name = document.getElementById("userInput").value;
             let arrayOfElements = mapOfForms.get(name);
-            let index = arrayOfElements.findIndex(function (o) {
-                return o.id == "rselect" + id;
-            });
-            if (index !== -1)
-                arrayOfElements.splice(index, 1);
+            removeFromArray(arrayOfElements, "rselect" + id, 1);
         }
-        let index = arrayOfElements.findIndex(function (o) {
-            return o.id == "rselect" + id;
-        });
-        if (index !== -1)
-            arrayOfElements.splice(index, 1);
+        removeFromArray(arrayOfElements, "rselect" + id, 1);
+        // let index = arrayOfElements.findIndex(function(o){
+        //   return o.id == "rselect"+id;})
+        //   if (index !== -1) 
+        //     arrayOfElements.splice(index,1);
         radioAdded = false;
     }
 }
@@ -139,17 +135,13 @@ function elementRemoval(num, id) {
         } // Also remove them from form's array.
         let name = document.getElementById("userInput").value;
         let arrayOfElements = mapOfForms.get(name);
-        let index = arrayOfElements.findIndex(function (o) {
-            return o.id === "br" + id + 0;
-        });
-        if (index !== -1)
-            arrayOfElements.splice(index, num * 3);
+        removeFromArray(arrayOfElements, "br" + id + 0, num * 3);
     }
-    let index = arrayOfElements.findIndex(function (o) {
-        return o.id === "br" + id + 0;
-    });
-    if (index !== -1)
-        arrayOfElements.splice(index, num * 3);
+    removeFromArray(arrayOfElements, "br" + id + 0, num * 3);
+    // let index = arrayOfElements.findIndex(function(o){
+    //   return o.id === "br"+id+0;})
+    // if (index !== -1) 
+    //   arrayOfElements.splice(index, num*3);
 }
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
