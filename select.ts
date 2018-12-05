@@ -23,7 +23,7 @@ class Select {
   }
 }
 
-var radioAdded: boolean;
+var radioAdded: number = 0;
 // Event listener function that creates a select form.
 function radioSelected(event) {
   let id: string = event.target.id.substr(6);
@@ -50,7 +50,7 @@ function radioSelected(event) {
         return o.id === "selectv"+id;});
     }
     array.splice(idx+1, 0 ,selectDrop.select);
-    radioAdded = true;
+    ++radioAdded;
   }
   // If we changed option from radio to other option, remove dynamically added elements.
   else if(oldType == "radio") {
@@ -66,7 +66,7 @@ function radioSelected(event) {
       removeFromArray(arrayOfElements,"rselect"+id,1);
     }
     removeFromArray(arrayOfElements,"rselect"+id,1);
-    radioAdded = false;
+    --radioAdded;
   }
 }
 

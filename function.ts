@@ -117,7 +117,7 @@ function getForm(selectedItem: string) {
     }
   } 
   // Ignore radio parent label when storing data.
-  if(radioAdded == true){
+  if(radioAdded > 0){
     for(var i = 0; i < radioLabel.length;i++)
       document.getElementById(radioLabel[i]).className = "defaultForm";
   }

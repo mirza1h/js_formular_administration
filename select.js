@@ -17,7 +17,7 @@ class Select {
         firstDiv.appendChild(this.select);
     }
 }
-var radioAdded;
+var radioAdded = 0;
 // Event listener function that creates a select form.
 function radioSelected(event) {
     let id = event.target.id.substr(6);
@@ -46,7 +46,7 @@ function radioSelected(event) {
             });
         }
         array.splice(idx + 1, 0, selectDrop.select);
-        radioAdded = true;
+        ++radioAdded;
     }
     // If we changed option from radio to other option, remove dynamically added elements.
     else if (oldType == "radio") {
@@ -62,7 +62,7 @@ function radioSelected(event) {
             removeFromArray(arrayOfElements, "rselect" + id, 1);
         }
         removeFromArray(arrayOfElements, "rselect" + id, 1);
-        radioAdded = false;
+        --radioAdded;
     }
 }
 // Creates a previously selected number of radio labels.

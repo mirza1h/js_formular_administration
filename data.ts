@@ -48,6 +48,7 @@ class Data {
     // Check for empty inputs and focus on them.
   validation(inputs: HTMLCollectionOf<HTMLInputElement>) {
     let empty: number = 0;
+    let anyOn: boolean = false;
     for(var i = 0;i < inputs.length; ++i) {
       if(inputs[i].type == "text" && inputs[i].required == true && inputs[i].value == "") {
         ++empty;
@@ -57,8 +58,13 @@ class Data {
         ++empty;
         inputs[i].focus();
       }
+      if(inputs[i].type == "radio" && inputs[i].checked == true) {
+        anyOn = true;
+      }
+      if(radioAdded == 0)
+        anyOn = true;
     }
-    if(empty != 0) {
+    if(empty != 0 || anyOn == false) {
       alert("Fill out mandatory fields!");
       return 0;
     }

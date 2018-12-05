@@ -7,7 +7,7 @@ class Inputs {
         this.elmnt.className = styleName;
         this.elmnt.required = state;
         if (elmntType == "radio")
-            this.elmnt.value = "on";
+            this.elmnt.value = "off";
     }
     append() {
         firstDiv.appendChild(this.elmnt);
