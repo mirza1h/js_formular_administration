@@ -47,24 +47,21 @@ function radioSelected(event) {
         }
         array.splice(idx + 1, 0, selectDrop.select);
         radioAdded = true;
-    } // If we changed option from radio to other option, remove dynamically added elements.
+    }
+    // If we changed option from radio to other option, remove dynamically added elements.
     else if (oldType == "radio") {
         event.target.setAttribute("oldType", event.target.value);
         let temp = document.getElementById("rselect" + id);
         let num = parseInt(temp.value, 10);
         temp.parentNode.removeChild(temp);
         elementRemoval(num, temp.id);
-        // When editing, operate on that form's array, not the global one.
+        // When removing, operate on that form's array, not the global one.
         if (edit == true) {
             let name = document.getElementById("userInput").value;
             let arrayOfElements = mapOfForms.get(name);
             removeFromArray(arrayOfElements, "rselect" + id, 1);
         }
         removeFromArray(arrayOfElements, "rselect" + id, 1);
-        // let index = arrayOfElements.findIndex(function(o){
-        //   return o.id == "rselect"+id;})
-        //   if (index !== -1) 
-        //     arrayOfElements.splice(index,1);
         radioAdded = false;
     }
 }
@@ -138,14 +135,12 @@ function elementRemoval(num, id) {
         removeFromArray(arrayOfElements, "br" + id + 0, num * 3);
     }
     removeFromArray(arrayOfElements, "br" + id + 0, num * 3);
-    // let index = arrayOfElements.findIndex(function(o){
-    //   return o.id === "br"+id+0;})
-    // if (index !== -1) 
-    //   arrayOfElements.splice(index, num*3);
 }
+// Custom function that insert elements after node.
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
+// Find index of 'id' and remove n_elements from global array or specific form's array.
 function removeFromArray(array, id, n_elements) {
     let index = array.findIndex(function (o) {
         return o.id === id;

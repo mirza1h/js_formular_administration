@@ -16,6 +16,8 @@ class Data {
         for(var i = 0; i < this.spanObj.length; ++i) {
           if(this.inpObj[i].value == "on" && this.inpObj[i].checked == false)
             this.inpObj[i].value = "off";
+          if(this.inpObj[i].checked == true)
+            this.inpObj[i].value = "on";
           // All data is being stored.
           console.log(this.spanObj[i].textContent,this.inpObj[i].value);
           dataMap.set(this.spanObj[i].textContent,this.inpObj[i].value);
@@ -47,7 +49,11 @@ class Data {
   validation(inputs: HTMLCollectionOf<HTMLInputElement>) {
     let empty: number = 0;
     for(var i = 0;i < inputs.length; ++i) {
-      if(inputs[i].required == true && (inputs[i].value == "" || inputs[i].value == "off")) {
+      if(inputs[i].type == "text" && inputs[i].required == true && inputs[i].value == "") {
+        ++empty;
+        inputs[i].focus();
+      }
+      if(inputs[i].type == "checkbox" && inputs[i].required == true && inputs[i].checked == false) {
         ++empty;
         inputs[i].focus();
       }
