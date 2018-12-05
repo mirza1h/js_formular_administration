@@ -23,7 +23,7 @@ class Select {
   }
 }
 
-var radioAdded: boolean = false;
+var radioAdded: boolean;
 // Event listener function that creates a select form.
 function radioSelected(event) {
   let id: string = event.target.id.substr(6);
@@ -37,9 +37,18 @@ function radioSelected(event) {
     selectDrop.select.addEventListener("click",radioLabels);
     insertAfter(selectDrop.select,nextEl);
     // Needs to be inserted into array at specific index, in case of nonlinear option changing.
+    if(edit == true){
+    let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
+    let arrayOfElements: any = mapOfForms.get(name);
     let idx = arrayOfElements.findIndex(function(o){
       return o.id === "selectv"+id;});
     arrayOfElements.splice(idx+1, 0 ,selectDrop.select);
+    }else if(edit == false){
+      let idx = arrayOfElements.findIndex(function(o){
+        return o.id === "selectv"+id;});
+      console.log(id,idx);
+      arrayOfElements.splice(idx+1, 0 ,selectDrop.select);
+    }
     radioAdded = true;
   }// If we changed option from radio to other option, remove dynamically added elements.
   else if(oldType == "radio") {
@@ -53,15 +62,15 @@ function radioSelected(event) {
       let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
       let arrayOfElements: any = mapOfForms.get(name);
       let index = arrayOfElements.findIndex(function(o){
-      return o.id == "rselect"+id;})
-      if (index !== -1) 
-        arrayOfElements.splice(index,1);
-      }
-    let index = arrayOfElements.findIndex(function(o){
-    return o.id === "rselect"+id;})
-    if (index !== -1) 
-      arrayOfElements.splice(index,1);
-    radioAdded = false;
+        return o.id == "rselect"+id;})
+        if (index !== -1) 
+          arrayOfElements.splice(index,1);
+        }
+        let index = arrayOfElements.findIndex(function(o){
+          return o.id == "rselect"+id;})
+          if (index !== -1) 
+            arrayOfElements.splice(index,1);
+          radioAdded = false;
   }
 }
 
@@ -86,8 +95,18 @@ function makeElements(num: number,el: any) {
   let radioDiv: HTMLDivElement = document.createElement("div");
   radioDiv.id = "rdiv"+id;
   insertAfter(radioDiv,el);
-  let idx = arrayOfElements.findIndex(function(o){
+  let idx;
+  let array:any = arrayOfElements;
+  if(edit == false){
+  idx = arrayOfElements.findIndex(function(o){
     return o.id == id;});
+  }
+  if(edit == true){
+    let name: string = (<HTMLInputElement>document.getElementById("userInput")).value;
+    array = mapOfForms.get(name);
+    idx = array.findIndex(function(o){
+      return o.id === id;});
+  }
   for(var i = 0; i < num; ++i) {
     let radio = new Inputs("radio","radio"+id+i,"radios",false);
     let label = new Inputs("text","label"+id+i,"defaultForm",false);
@@ -97,9 +116,9 @@ function makeElements(num: number,el: any) {
     radioDiv.appendChild(radio.elmnt);
     radioDiv.appendChild(label.elmnt);
     // Need to be inserted into array at specific index, in case of nonlinear option changing.
-    arrayOfElements.splice(idx+1, 0 ,br);
-    arrayOfElements.splice(idx+2, 0 ,radio.elmnt);
-    arrayOfElements.splice(idx+3, 0 ,label.elmnt);
+    array.splice(idx+1, 0 ,br);
+    array.splice(idx+2, 0 ,radio.elmnt);
+    array.splice(idx+3, 0 ,label.elmnt);
     idx+=3;
   }
 }
@@ -124,11 +143,11 @@ function elementRemoval(num: number,id: string) {
       return o.id === "br"+id+0;})
     if (index !== -1) 
       arrayOfElements.splice(index, num*3);
-    }
-    let index = arrayOfElements.findIndex(function(o){
+  }
+  let index = arrayOfElements.findIndex(function(o){
     return o.id === "br"+id+0;})
-    if (index !== -1) 
-      arrayOfElements.splice(index, num*3);
+  if (index !== -1) 
+    arrayOfElements.splice(index, num*3);
 }
 
 function insertAfter(newNode, referenceNode) {

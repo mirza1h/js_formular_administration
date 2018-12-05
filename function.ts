@@ -102,11 +102,9 @@ function getForm(selectedItem: string) {
         temp4.elmnt.required = true;
       }
       else if(array[i+1].value == "number") {
-        if(array[i].type == "checkbox")
+        if(temp4.elmnt.type == "text")
           temp4.elmnt.type = "number";
-        if(array[i+1].value != "false")
-          temp4.elmnt.required = true;
-        temp4.elmnt.required = false;
+        temp4.elmnt.required = true;
       }
       if(array[i].value == "radio")
         i+=2;
