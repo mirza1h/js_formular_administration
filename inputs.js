@@ -6,7 +6,6 @@ class Inputs {
         this.elmnt.id = elmntId;
         this.elmnt.className = styleName;
         this.elmnt.required = state;
-        this.elmnt.name = "nesto";
     }
     append() {
         firstDiv.appendChild(this.elmnt);

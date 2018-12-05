@@ -46,7 +46,7 @@ function createDefaultForm() {
     arrayOfElements.push(br, text.elmnt, input.elmnt, selectDrop1.select, selectDrop2.select);
     return;
 }
-var edit;
+var edit = false;
 // Store the copied array of current form into a map and add a new option to Formulars dropdown.
 function storeForm(userInput) {
     elementCount = 0;
@@ -116,6 +116,7 @@ function getForm(selectedItem) {
             formReset.appendChild(temp);
         }
     }
+    // Ignore radio parent label when storing data.
     if (radioAdded == true) {
         for (var i = 0; i < radioLabel.length; i++)
             document.getElementById(radioLabel[i]).className = "defaultForm";

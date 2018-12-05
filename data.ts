@@ -15,23 +15,25 @@ class Data {
       if(this.validation(this.inpObj) == 1) {
         for(var i = 0; i < this.spanObj.length; ++i) {
           if(this.inpObj[i].value == "on" && this.inpObj[i].checked == false)
-              this.inpObj[i].value = "off";
-            console.log(this.spanObj[i].textContent,this.inpObj[i].value);
-            dataMap.set(this.spanObj[i].textContent,this.inpObj[i].value);
-            arrayOfInputs.push(this.inpObj[i].value);
-          }
+            this.inpObj[i].value = "off";
+          // All data is being stored.
+          console.log(this.spanObj[i].textContent,this.inpObj[i].value);
+          dataMap.set(this.spanObj[i].textContent,this.inpObj[i].value);
+          // Inputs are stored, so they can be used for versions.
+          arrayOfInputs.push(this.inpObj[i].value);
+        }
         formReset.reset();
         alert("Data submitted under version: " + vers);
       }
       inputMap.set(formName+vers,arrayOfInputs);
-    }
+    }// Load array of inputs for that form, and apply them to form.
     else if(load == true) {
-      let array: any = inputMap.get(formName+vers);
+      let array: string[] = inputMap.get(formName+vers);
       if(array == undefined) {
         alert("Version doesn't exist!");
         return;
       }
-      for(var i = 0; i< array.length;i++){
+      for(var i = 0; i < array.length;i++) {
         if(array[i] == "on")
           this.inpObj[i].checked = true;
         this.inpObj[i].value = array[i];
