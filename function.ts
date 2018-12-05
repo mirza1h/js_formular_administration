@@ -13,6 +13,7 @@ function searchForm(userInput: string) {
     return;
   }
   // Reset page, so a new form can be displayed.
+  edit = true;
   firstDiv.innerHTML = "";
   let lastNumber: string;
   for(var i = 0; i < array.length; i++ ) {
