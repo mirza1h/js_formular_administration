@@ -9,6 +9,7 @@ function searchForm(userInput: string) {
     alert("Form doesn't exist. Create a form: " + userInput);
     document.getElementById("add").style.display = "block";
     createDefaultForm();
+    edit = false;
     return;
   }
   // Reset page, so a new form can be displayed.
