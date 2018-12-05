@@ -29,6 +29,7 @@ function searchForm(userInput) {
 var version = 0;
 // Creates default form elements after invalid search, and adds more fields.
 function createDefaultForm() {
+    edit = false;
     let br = document.createElement("br");
     firstDiv.appendChild(br);
     ++elementCount;
