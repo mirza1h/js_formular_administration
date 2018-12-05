@@ -15,6 +15,8 @@ function searchForm(userInput: string) {
   firstDiv.innerHTML = "";
   let lastNumber: string;
   for(var i = 0; i < array.length; i++ ) {
+    if(array[i].tagName == "DIV")
+      continue;
     firstDiv.appendChild(array[i]);
     if(array[i].tagName == "SPAN")
       lastNumber = array[i].textContent;
@@ -38,6 +40,7 @@ function createDefaultForm() {
   selectDrop1.select.addEventListener("change",radioSelected);
   selectDrop1.addName("defaultForm");
   selectDrop1.append();
+  selectDrop1.select.setAttribute("oldType"," ");
   let selectDrop2 = new Select("Mandatory","true","None","false","Number","number","selectv"+elementCount)
   selectDrop2.addName("defaultForm");
   selectDrop2.append();
@@ -66,7 +69,7 @@ function storeForm(userInput: string) {
   return;
 }
 
-var radioLabel: string;
+var radioLabel: string[] = [];
 // Search the map for the array of selected form and convert to form items based on user selection.
 function getForm(selectedItem: string) {
   let array: htmlElements[] = (<htmlElements[]>mapOfForms.get(selectedItem));
@@ -74,6 +77,7 @@ function getForm(selectedItem: string) {
     alert("No form under that name!")
     return;
   }
+  let countRL: number = 0;
   formReset.innerHTML = "";
   // Loop through elements and convert them based on input, also add validation.
   for(var i = 0; i < array.length; ++i) {
@@ -91,7 +95,7 @@ function getForm(selectedItem: string) {
         formReset.appendChild(temp4.elmnt);
       }
       if(array[i].value == "radio"){
-        radioLabel = array[i-1].id;
+        radioLabel[countRL++] = array[i-1].id;
       }
       if(array[i+1].value == "true") {
         temp4.elmnt.required = true;
@@ -113,8 +117,10 @@ function getForm(selectedItem: string) {
       formReset.appendChild(temp);
     }
   } 
-  if(radioAdded == true)
-    document.getElementById(radioLabel).className = "defaultForm";
+  if(radioAdded == true){
+    for(var i = 0; i < radioLabel.length;i++)
+      document.getElementById(radioLabel[i]).className = "defaultForm";
+  }
   formReset.reportValidity();
   return;
 }
