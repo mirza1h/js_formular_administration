@@ -10,6 +10,7 @@ function searchForm(userInput) {
         document.getElementById("add").style.display = "block";
         createDefaultForm();
         edit = false;
+        radioAdded = 0;
         return;
     }
     // Reset page, so a new form can be displayed.
